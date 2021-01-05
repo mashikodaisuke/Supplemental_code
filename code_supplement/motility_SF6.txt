@@ -1,0 +1,651 @@
+library(xlsx)
+
+filename = "abort_6th_F14_E2.xls"  # filename
+hosei<-2.5
+x = read.xlsx(filename,sheetIndex=1)
+
+
+tmax<-max(x$Frame) 
+time <- array(1:tmax-1)
+countnuc <- array(1:tmax-1)
+t <- 1                     
+ for (t in 1:tmax-1) {              
+   t <- t + 1                  
+time[t]<-t
+countnuc[t]<-sum(x$Frame==t)
+ }         
+
+
+
+ t1<-1
+ for (t1 in 3:tmax-1) {
+t1<t1+1
+tmpFrame1<-countnuc[t1]
+tmpFrame2<-countnuc[t1+1]
+if((tmpFrame1==1)&&(tmpFrame2==2)){starttime2<-t1+1}　
+if((tmpFrame1==2)&&(tmpFrame2>2)){endtime2<-t1}　　　
+}   
+
+celltime2<-endtime2-starttime2
+celltime2to4<-sum(countnuc==3)
+celltime4<-sum(countnuc==4)
+celltime4to8<-sum(countnuc==5)+sum(countnuc==6)+sum(countnuc==7)
+celltime8<-sum(countnuc==8)
+
+celltime8to16<-sum(countnuc==9)+sum(countnuc==10)+sum(countnuc==11)+sum(countnuc==12)+sum(countnuc==13)+sum(countnuc==14)+sum(countnuc==15)
+celltime16<-sum(countnuc==16)
+
+ t2<-1
+ for (t2 in 3:tmax-1) {
+t2<t2+1
+tmpFrame1<-countnuc[t2]
+tmpFrame2<-countnuc[t2+1]
+if((tmpFrame1!=4)&&(tmpFrame2==4)){starttime4<-t2+1}
+if((tmpFrame1==4)&&(tmpFrame2>4)){endtime4<-t2}
+}   
+
+ t2<-1
+ for (t2 in 3:tmax-1) {
+t2<t2+1
+tmpFrame1<-countnuc[t2]
+tmpFrame2<-countnuc[t2+1]
+if((tmpFrame1!=8)&&(tmpFrame2==8)){starttime8<-t2+1}
+if((tmpFrame1==8)&&(tmpFrame2>8)){endtime8<-t2}
+}   
+
+ t2<-1
+ for (t2 in 3:tmax-1) {
+t2<t2+1
+tmpFrame1<-countnuc[t2]
+tmpFrame2<-countnuc[t2+1]
+if((tmpFrame1!=16)&&(tmpFrame2==16)){starttime16<-t2+1}
+if((tmpFrame1==16)&&(tmpFrame2>16)){endtime16<-t2}
+}   
+
+cnumbermax<-length(x$Frame)
+t<-1
+ for (t in 1:cnumbermax-1) {              
+   t <- t + 1                  
+if((x$Frame[t]==starttime2)){
+startcnumber2<-t
+break}
+ }     
+
+t<-1
+ for (t in 1:cnumbermax-1) {              
+   t <- t + 1                  
+if((x$Frame[t]==endtime2)){
+endcnumber2<-t}
+ }     
+
+
+t<-1
+ for (t in 1:cnumbermax-1) {             
+   t <- t + 1                  
+if((x$Frame[t]==starttime4)){
+startcnumber4<-t
+break}
+ }     
+
+t<-1
+ for (t in 1:cnumbermax-1) {              
+   t <- t + 1                  
+if((x$Frame[t]==endtime4)){
+endcnumber4<-t}
+ }  
+
+
+t<-1
+ for (t in 1:cnumbermax-1) {              
+   t <- t + 1                  
+if((x$Frame[t]==starttime8)){
+startcnumber8<-t
+break}
+ }     
+
+t<-1
+ for (t in 1:cnumbermax-1) {              
+   t <- t + 1                  
+if((x$Frame[t]==endtime8)){
+endcnumber8<-t}
+ }        
+
+t<-1
+ for (t in 1:cnumbermax-1) {              
+   t <- t + 1                  
+if((x$Frame[t]==starttime16)){
+startcnumber16<-t
+break}
+ }     
+
+t<-1
+ for (t in 1:cnumbermax-1) {             
+   t <- t + 1                 
+
+if((x$Frame[t]==endtime16)){
+endcnumber16<-t}
+ }        
+
+
+
+t<-1
+dist2<-matrix(nrow=1,ncol=celltime2)
+
+
+ for (t in (startcnumber2-1):(endcnumber2)) {             
+   t <- t + 1                 
+
+
+if((t-startcnumber2)%%2==0){
+dist2[,(t-startcnumber2-1)/2]<-sqrt((x$X[t+1]-x$X[t])^2+(x$Y[t+1]-x$Y[t])^2+(hosei*x$Z[t+1]-hosei*x$Z[t])^2)
+
+}}
+
+plot(1:celltime2,dist2,type="l",ylim=c(20,80))
+matods2<-dist2
+matods2[celltime2+1:300]<-NA
+matome2<-cbind(matome2,matods2)
+
+print(filename)
+ncol(matome2)-1
+# write.csv(matome2, "matome2cellabort.csv", quote=FALSE, row.names=FALSE)"  
+hosei<-2.5
+x = read.xlsx(filename,sheetIndex=1)
+
+
+tmax<-max(x$Frame) 
+time <- array(1:tmax-1)
+countnuc <- array(1:tmax-1)
+t <- 1                     
+ for (t in 1:tmax-1) {              
+   t <- t + 1                  
+time[t]<-t
+countnuc[t]<-sum(x$Frame==t)
+ }         
+
+
+
+ t1<-1
+ for (t1 in 3:tmax-1) {
+t1<t1+1
+tmpFrame1<-countnuc[t1]
+tmpFrame2<-countnuc[t1+1]
+if((tmpFrame1==1)&&(tmpFrame2==2)){starttime2<-t1+1}　
+if((tmpFrame1==2)&&(tmpFrame2>2)){endtime2<-t1}　　　
+}   
+
+celltime2<-endtime2-starttime2
+celltime2to4<-sum(countnuc==3)
+celltime4<-sum(countnuc==4)
+celltime4to8<-sum(countnuc==5)+sum(countnuc==6)+sum(countnuc==7)
+celltime8<-sum(countnuc==8)
+
+celltime8to16<-sum(countnuc==9)+sum(countnuc==10)+sum(countnuc==11)+sum(countnuc==12)+sum(countnuc==13)+sum(countnuc==14)+sum(countnuc==15)
+celltime16<-sum(countnuc==16)
+
+ t2<-1
+ for (t2 in 3:tmax-1) {
+t2<t2+1
+tmpFrame1<-countnuc[t2]
+tmpFrame2<-countnuc[t2+1]
+if((tmpFrame1!=4)&&(tmpFrame2==4)){starttime4<-t2+1}
+if((tmpFrame1==4)&&(tmpFrame2>4)){endtime4<-t2}
+}   
+
+ t2<-1
+ for (t2 in 3:tmax-1) {
+t2<t2+1
+tmpFrame1<-countnuc[t2]
+tmpFrame2<-countnuc[t2+1]
+if((tmpFrame1!=8)&&(tmpFrame2==8)){starttime8<-t2+1}
+if((tmpFrame1==8)&&(tmpFrame2>8)){endtime8<-t2}
+}   
+
+ t2<-1
+ for (t2 in 3:tmax-1) {
+t2<t2+1
+tmpFrame1<-countnuc[t2]
+tmpFrame2<-countnuc[t2+1]
+if((tmpFrame1!=16)&&(tmpFrame2==16)){starttime16<-t2+1}
+if((tmpFrame1==16)&&(tmpFrame2>16)){endtime16<-t2}
+}   
+
+cnumbermax<-length(x$Frame)
+t<-1
+ for (t in 1:cnumbermax-1) {             
+   t <- t + 1                  
+if((x$Frame[t]==starttime2)){
+startcnumber2<-t
+break}
+ }     
+
+t<-1
+ for (t in 1:cnumbermax-1) {             
+   t <- t + 1                  
+if((x$Frame[t]==endtime2)){
+endcnumber2<-t}
+ }     
+
+
+t<-1
+ for (t in 1:cnumbermax-1) {              
+   t <- t + 1                 
+if((x$Frame[t]==starttime4)){
+startcnumber4<-t
+break}
+ }     
+
+t<-1
+ for (t in 1:cnumbermax-1) {             
+   t <- t + 1                  
+if((x$Frame[t]==endtime4)){
+endcnumber4<-t}
+ }  
+
+
+t<-1
+ for (t in 1:cnumbermax-1) {             
+   t <- t + 1                  
+if((x$Frame[t]==starttime8)){
+startcnumber8<-t
+break}
+ }     
+
+t<-1
+ for (t in 1:cnumbermax-1) {             
+   t <- t + 1                 
+if((x$Frame[t]==endtime8)){
+endcnumber8<-t}
+ }        
+
+t<-1
+ for (t in 1:cnumbermax-1) {              
+   t <- t + 1                  
+if((x$Frame[t]==starttime16)){
+startcnumber16<-t
+break}
+ }     
+
+t<-1
+ for (t in 1:cnumbermax-1) {              
+   t <- t + 1                  
+if((x$Frame[t]==endtime16)){
+endcnumber16<-t}
+ }        
+
+rmsdcell2<-matrix(nrow=3,ncol=celltime2-1)
+root2<-matrix(nrow=2,ncol=celltime2)
+root2[1,1]<-startcnumber2
+root2[2,1]<-startcnumber2+1
+t<-1
+
+ for (t in (startcnumber2+1):(endcnumber2-1)) {             
+   t <- t + 1                
+if((t-startcnumber2-1)%%2==0){
+if(sqrt((x$X[root2[1,(t-startcnumber2-1)/2]]-x$X[t-1])^2+(x$Y[root2[1,(t-startcnumber2-1)/2]]-x$Y[t-1])^2+(hosei*x$Z[root2[1,(t-startcnumber2-1)/2]]-hosei*x$Z[t-1])^2)<sqrt((x$X[root2[1,(t-startcnumber2-1)/2]]-x$X[t])^2+(x$Y[root2[1,(t-startcnumber2-1)/2]]-x$Y[t])^2+(hosei*x$Z[root2[1,(t-startcnumber2-1)/2]]-hosei*x$Z[t])^2))
+{
+rmsdcell2[1,(t-startcnumber2-1)/2]<-sqrt((x$X[root2[1,(t-startcnumber2-1)/2]]-x$X[t-1])^2+(x$Y[root2[1,(t-startcnumber2-1)/2]]-x$Y[t-1])^2+(hosei*x$Z[root2[1,(t-startcnumber2-1)/2]]-hosei*x$Z[t-1])^2)
+root2[1,(t-startcnumber2-1)/2+1]<-(t-1)
+
+}else {
+rmsdcell2[1,(t-startcnumber2-1)/2]<-sqrt((x$X[root2[1,(t-startcnumber2-1)/2]]-x$X[t])^2+(x$Y[root2[1,(t-startcnumber2-1)/2]]-x$Y[t])^2+(hosei*x$Z[root2[1,(t-startcnumber2-1)/2]]-hosei*x$Z[t])^2)
+root2[1,(t-startcnumber2-1)/2+1]<-(t)}
+} 
+
+
+
+if((t-startcnumber2-1)%%2==0){
+if(sqrt((x$X[root2[2,(t-startcnumber2-1)/2]]-x$X[t-1])^2+(x$Y[root2[2,(t-startcnumber2-1)/2]]-x$Y[t-1])^2+(hosei*x$Z[root2[2,(t-startcnumber2-1)/2]]-hosei*x$Z[t-1])^2)<sqrt((x$X[root2[2,(t-startcnumber2-1)/2]]-x$X[t])^2+(x$Y[root2[2,(t-startcnumber2-1)/2]]-x$Y[t])^2+(hosei*x$Z[root2[2,(t-startcnumber2-1)/2]]-hosei*x$Z[t])^2))
+{
+rmsdcell2[2,(t-startcnumber2-1)/2]<-sqrt((x$X[root2[2,(t-startcnumber2-1)/2]]-x$X[t-1])^2+(x$Y[root2[2,(t-startcnumber2-1)/2]]-x$Y[t-1])^2+(hosei*x$Z[root2[2,(t-startcnumber2-1)/2]]-hosei*x$Z[t-1])^2)
+root2[2,(t-startcnumber2-1)/2+1]<-(t-1)
+
+}else {
+rmsdcell2[2,(t-startcnumber2-1)/2]<-sqrt((x$X[root2[2,(t-startcnumber2-1)/2]]-x$X[t])^2+(x$Y[root2[2,(t-startcnumber2-1)/2]]-x$Y[t])^2+(hosei*x$Z[root2[2,(t-startcnumber2-1)/2]]-hosei*x$Z[t])^2)
+root2[2,(t-startcnumber2-1)/2+1]<-(t)}
+
+} 
+
+}        
+
+rmsdcell2[3,]<-rmsdcell2[1,]+rmsdcell2[2,]
+
+plot(rmsdcell2[1,],type="b",col="royalblue",cex=2,lwd=2,lty=1,axes=F,ann=T)
+par(new=T)
+plot(rmsdcell2[2,],type="b",col="red",cex=2,pch=15,lwd=2,lty=1)
+
+
+
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+
+
+
+
+
+rmsdcell4<-matrix(nrow=5,ncol=celltime4-1)
+root4<-matrix(nrow=4,ncol=celltime4)
+root4[1,1]<-startcnumber4
+root4[2,1]<-startcnumber4+1
+root4[3,1]<-startcnumber4+2
+root4[4,1]<-startcnumber4+3
+t<-1
+
+ for (t in (startcnumber4+1):(endcnumber4-3)) {             
+   t <- t + 1                  
+
+
+if((t-startcnumber4)%%4==0){
+
+tmp41<-c(sqrt((x$X[t]-x$X[root4[1,(t-startcnumber4)/4]])^2+(x$Y[t]-x$Y[root4[1,(t-startcnumber4)/4]])^2+(hosei*x$Z[t]-hosei*x$Z[root4[1,(t-startcnumber4)/4]])^2),sqrt((x$X[t+1]-x$X[root4[1,(t-startcnumber4)/4]])^2+(x$Y[t+1]-x$Y[root4[1,(t-startcnumber4)/4]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root4[1,(t-startcnumber4)/4]])^2),sqrt((x$X[t+2]-x$X[root4[1,(t-startcnumber4)/4]])^2+(x$Y[t+2]-x$Y[root4[1,(t-startcnumber4)/4]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root4[1,(t-startcnumber4)/4]])^2),sqrt((x$X[t+3]-x$X[root4[1,(t-startcnumber4)/4]])^2+(x$Y[t+3]-x$Y[root4[1,(t-startcnumber4)/4]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root4[1,(t-startcnumber4)/4]])^2))
+
+tmp42<-c(sqrt((x$X[t]-x$X[root4[2,(t-startcnumber4)/4]])^2+(x$Y[t]-x$Y[root4[2,(t-startcnumber4)/4]])^2+(hosei*x$Z[t]-hosei*x$Z[root4[2,(t-startcnumber4)/4]])^2),sqrt((x$X[t+1]-x$X[root4[2,(t-startcnumber4)/4]])^2+(x$Y[t+1]-x$Y[root4[2,(t-startcnumber4)/4]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root4[2,(t-startcnumber4)/4]])^2),sqrt((x$X[t+2]-x$X[root4[2,(t-startcnumber4)/4]])^2+(x$Y[t+2]-x$Y[root4[2,(t-startcnumber4)/4]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root4[2,(t-startcnumber4)/4]])^2),sqrt((x$X[t+3]-x$X[root4[2,(t-startcnumber4)/4]])^2+(x$Y[t+3]-x$Y[root4[2,(t-startcnumber4)/4]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root4[2,(t-startcnumber4)/4]])^2))
+
+tmp43<-c(sqrt((x$X[t]-x$X[root4[3,(t-startcnumber4)/4]])^2+(x$Y[t]-x$Y[root4[3,(t-startcnumber4)/4]])^2+(hosei*x$Z[t]-hosei*x$Z[root4[3,(t-startcnumber4)/4]])^2),sqrt((x$X[t+1]-x$X[root4[3,(t-startcnumber4)/4]])^2+(x$Y[t+1]-x$Y[root4[3,(t-startcnumber4)/4]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root4[3,(t-startcnumber4)/4]])^2),sqrt((x$X[t+2]-x$X[root4[3,(t-startcnumber4)/4]])^2+(x$Y[t+2]-x$Y[root4[3,(t-startcnumber4)/4]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root4[3,(t-startcnumber4)/4]])^2),sqrt((x$X[t+3]-x$X[root4[3,(t-startcnumber4)/4]])^2+(x$Y[t+3]-x$Y[root4[3,(t-startcnumber4)/4]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root4[3,(t-startcnumber4)/4]])^2))
+
+tmp44<-c(sqrt((x$X[t]-x$X[root4[4,(t-startcnumber4)/4]])^2+(x$Y[t]-x$Y[root4[4,(t-startcnumber4)/4]])^2+(hosei*x$Z[t]-hosei*x$Z[root4[4,(t-startcnumber4)/4]])^2),sqrt((x$X[t+1]-x$X[root4[4,(t-startcnumber4)/4]])^2+(x$Y[t+1]-x$Y[root4[4,(t-startcnumber4)/4]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root4[4,(t-startcnumber4)/4]])^2),sqrt((x$X[t+2]-x$X[root4[4,(t-startcnumber4)/4]])^2+(x$Y[t+2]-x$Y[root4[4,(t-startcnumber4)/4]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root4[4,(t-startcnumber4)/4]])^2),sqrt((x$X[t+3]-x$X[root4[4,(t-startcnumber4)/4]])^2+(x$Y[t+3]-x$Y[root4[4,(t-startcnumber4)/4]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root4[4,(t-startcnumber4)/4]])^2))
+
+
+root4[1,((t-startcnumber4)/4+1)]<-t+which.min(tmp41)-1
+root4[2,((t-startcnumber4)/4+1)]<-t+which.min(tmp42)-1
+root4[3,((t-startcnumber4)/4+1)]<-t+which.min(tmp43)-1
+root4[4,((t-startcnumber4)/4+1)]<-t+which.min(tmp44)-1
+
+rmsdcell4[1,(t-startcnumber4)/4]<-min(tmp41)
+rmsdcell4[2,(t-startcnumber4)/4]<-min(tmp42)
+rmsdcell4[3,(t-startcnumber4)/4]<-min(tmp43)
+rmsdcell4[4,(t-startcnumber4)/4]<-min(tmp44)
+
+
+
+
+#sqrt((x$X[t]-x$X[root4[4,1]])^2+(x$Y[t]-x$Y[root4[4,1])^2+(hosei*x$Z[t]-hosei*x$Z[root4[4,1])^2),
+#sqrt((x$X[t+1]-x$X[root4[4,1]])^2+(x$Y[t+1]-x$Y[root4[4,1])^2+(hosei*x$Z[t+1]-hosei*x$Z[root4[4,1])^2),
+#sqrt((x$X[t+2]-x$X[root4[4,1]])^2+(x$Y[t+2]-x$Y[root4[4,1])^2+(hosei*x$Z[t+2]-hosei*x$Z[root4[4,1])^2),
+#sqrt((x$X[t+3]-x$X[root4[4,1]])^2+(x$Y[t+3]-x$Y[root4[4,1])^2+(hosei*x$Z[t+3]-hosei*x$Z[root4[4,1])^2)
+
+#((t-startcnumber4)/4+1)==2
+
+
+
+}
+}  
+
+
+rmsdcell4[5,]<-rmsdcell4[1,]+rmsdcell4[2,]+rmsdcell4[3,]+rmsdcell4[4,]
+
+rmsdcell2ave[]=(rmsdcell2[1,]+rmsdcell2[2,])/2
+plot(rmsdcell2[1,],type="b",col="cyan",cex=2,lwd=2,lty=1,axes=F,ann=T, xlim=c(0,80), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell2[2,],type="b",col="yellow",cex=2,pch=15,lwd=2,lty=1,axes=F,ann=T, xlim=c#(0,80), ylim=c(0,10))
+
+###############################################################################################################################################################################################################################################################################################################################################################################################
+
+plot(rmsdcell4[1,],type="b",col="blue",cex=2,lwd=2,lty=1,axes=F,ann=T, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell4[2,],type="b",col="red",cex=2,pch=15,lwd=2,lty=1,axes=F,ann=T, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell4[3,],type="b",col="green",cex=2,pch=16,lwd=3,lty=1,axes=F,ann=T, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell4[4,],type="b",col="gray",cex=2,pch=17,lwd=4,lty=1, xlim=c(0,40), ylim=c(0,10))
+
+
+
+
+#write.csv(countnuc, "count.csv", quote=FALSE, row.names=FALSE)
+
+
+rmsdcell8<-matrix(nrow=9,ncol=celltime8-1)
+root8<-matrix(nrow=8,ncol=celltime8)
+root8[1,1]<-startcnumber8
+root8[2,1]<-startcnumber8+1
+root8[3,1]<-startcnumber8+2
+root8[4,1]<-startcnumber8+3
+root8[5,1]<-startcnumber8+4
+root8[6,1]<-startcnumber8+5
+root8[7,1]<-startcnumber8+6
+root8[8,1]<-startcnumber8+7
+t<-1
+
+ for (t in (startcnumber8+1):(endcnumber8)) {       
+   t <- t + 1                
+
+
+if((t-startcnumber8)%%8==0){
+tmp81<-c()
+tmp82<-c()
+tmp83<-c()
+tmp84<-c()
+tmp85<-c()
+tmp86<-c()
+tmp87<-c()
+tmp88<-c()
+
+tmp81<-c(sqrt((x$X[t]-x$X[root8[1,(t-startcnumber8)/8]])^2+(x$Y[t]-x$Y[root8[1,(t-startcnumber8)/8]])^2+(hosei*x$Z[t]-hosei*x$Z[root8[1,(t-startcnumber8)/8]])^2),sqrt((x$X[t+1]-x$X[root8[1,(t-startcnumber8)/8]])^2+(x$Y[t+1]-x$Y[root8[1,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root8[1,(t-startcnumber8)/8]])^2),sqrt((x$X[t+2]-x$X[root8[1,(t-startcnumber8)/8]])^2+(x$Y[t+2]-x$Y[root8[1,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root8[1,(t-startcnumber8)/8]])^2),sqrt((x$X[t+3]-x$X[root8[1,(t-startcnumber8)/8]])^2+(x$Y[t+3]-x$Y[root8[1,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root8[1,(t-startcnumber8)/8]])^2),sqrt((x$X[t+4]-x$X[root8[1,(t-startcnumber8)/8]])^2+(x$Y[t+4]-x$Y[root8[1,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root8[1,(t-startcnumber8)/8]])^2),sqrt((x$X[t+5]-x$X[root8[1,(t-startcnumber8)/8]])^2+(x$Y[t+5]-x$Y[root8[1,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root8[1,(t-startcnumber8)/8]])^2),sqrt((x$X[t+6]-x$X[root8[1,(t-startcnumber8)/8]])^2+(x$Y[t+6]-x$Y[root8[1,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root8[1,(t-startcnumber8)/8]])^2),sqrt((x$X[t+7]-x$X[root8[1,(t-startcnumber8)/8]])^2+(x$Y[t+7]-x$Y[root8[1,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root8[1,(t-startcnumber8)/8]])^2))
+
+tmp82<-c(sqrt((x$X[t]-x$X[root8[2,(t-startcnumber8)/8]])^2+(x$Y[t]-x$Y[root8[2,(t-startcnumber8)/8]])^2+(hosei*x$Z[t]-hosei*x$Z[root8[2,(t-startcnumber8)/8]])^2),sqrt((x$X[t+1]-x$X[root8[2,(t-startcnumber8)/8]])^2+(x$Y[t+1]-x$Y[root8[2,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root8[2,(t-startcnumber8)/8]])^2),sqrt((x$X[t+2]-x$X[root8[2,(t-startcnumber8)/8]])^2+(x$Y[t+2]-x$Y[root8[2,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root8[2,(t-startcnumber8)/8]])^2),sqrt((x$X[t+3]-x$X[root8[2,(t-startcnumber8)/8]])^2+(x$Y[t+3]-x$Y[root8[2,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root8[2,(t-startcnumber8)/8]])^2),sqrt((x$X[t+4]-x$X[root8[2,(t-startcnumber8)/8]])^2+(x$Y[t+4]-x$Y[root8[2,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root8[2,(t-startcnumber8)/8]])^2),sqrt((x$X[t+5]-x$X[root8[2,(t-startcnumber8)/8]])^2+(x$Y[t+5]-x$Y[root8[2,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root8[2,(t-startcnumber8)/8]])^2),sqrt((x$X[t+6]-x$X[root8[2,(t-startcnumber8)/8]])^2+(x$Y[t+6]-x$Y[root8[2,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root8[2,(t-startcnumber8)/8]])^2),sqrt((x$X[t+7]-x$X[root8[2,(t-startcnumber8)/8]])^2+(x$Y[t+7]-x$Y[root8[2,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root8[2,(t-startcnumber8)/8]])^2))
+
+tmp83<-c(sqrt((x$X[t]-x$X[root8[3,(t-startcnumber8)/8]])^2+(x$Y[t]-x$Y[root8[3,(t-startcnumber8)/8]])^2+(hosei*x$Z[t]-hosei*x$Z[root8[3,(t-startcnumber8)/8]])^2),sqrt((x$X[t+1]-x$X[root8[3,(t-startcnumber8)/8]])^2+(x$Y[t+1]-x$Y[root8[3,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root8[3,(t-startcnumber8)/8]])^2),sqrt((x$X[t+2]-x$X[root8[3,(t-startcnumber8)/8]])^2+(x$Y[t+2]-x$Y[root8[3,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root8[3,(t-startcnumber8)/8]])^2),sqrt((x$X[t+3]-x$X[root8[3,(t-startcnumber8)/8]])^2+(x$Y[t+3]-x$Y[root8[3,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root8[3,(t-startcnumber8)/8]])^2),sqrt((x$X[t+4]-x$X[root8[3,(t-startcnumber8)/8]])^2+(x$Y[t+4]-x$Y[root8[3,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root8[3,(t-startcnumber8)/8]])^2),sqrt((x$X[t+5]-x$X[root8[3,(t-startcnumber8)/8]])^2+(x$Y[t+5]-x$Y[root8[3,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root8[3,(t-startcnumber8)/8]])^2),sqrt((x$X[t+6]-x$X[root8[3,(t-startcnumber8)/8]])^2+(x$Y[t+6]-x$Y[root8[3,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root8[3,(t-startcnumber8)/8]])^2),sqrt((x$X[t+7]-x$X[root8[3,(t-startcnumber8)/8]])^2+(x$Y[t+7]-x$Y[root8[3,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root8[3,(t-startcnumber8)/8]])^2))
+
+
+tmp84<-c(sqrt((x$X[t]-x$X[root8[4,(t-startcnumber8)/8]])^2+(x$Y[t]-x$Y[root8[4,(t-startcnumber8)/8]])^2+(hosei*x$Z[t]-hosei*x$Z[root8[4,(t-startcnumber8)/8]])^2),sqrt((x$X[t+1]-x$X[root8[4,(t-startcnumber8)/8]])^2+(x$Y[t+1]-x$Y[root8[4,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root8[4,(t-startcnumber8)/8]])^2),sqrt((x$X[t+2]-x$X[root8[4,(t-startcnumber8)/8]])^2+(x$Y[t+2]-x$Y[root8[4,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root8[4,(t-startcnumber8)/8]])^2),sqrt((x$X[t+3]-x$X[root8[4,(t-startcnumber8)/8]])^2+(x$Y[t+3]-x$Y[root8[4,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root8[4,(t-startcnumber8)/8]])^2),sqrt((x$X[t+4]-x$X[root8[4,(t-startcnumber8)/8]])^2+(x$Y[t+4]-x$Y[root8[4,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root8[4,(t-startcnumber8)/8]])^2),sqrt((x$X[t+5]-x$X[root8[4,(t-startcnumber8)/8]])^2+(x$Y[t+5]-x$Y[root8[4,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root8[4,(t-startcnumber8)/8]])^2),sqrt((x$X[t+6]-x$X[root8[4,(t-startcnumber8)/8]])^2+(x$Y[t+6]-x$Y[root8[4,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root8[4,(t-startcnumber8)/8]])^2),sqrt((x$X[t+7]-x$X[root8[4,(t-startcnumber8)/8]])^2+(x$Y[t+7]-x$Y[root8[4,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root8[4,(t-startcnumber8)/8]])^2))
+
+tmp85<-c(sqrt((x$X[t]-x$X[root8[5,(t-startcnumber8)/8]])^2+(x$Y[t]-x$Y[root8[5,(t-startcnumber8)/8]])^2+(hosei*x$Z[t]-hosei*x$Z[root8[5,(t-startcnumber8)/8]])^2),sqrt((x$X[t+1]-x$X[root8[5,(t-startcnumber8)/8]])^2+(x$Y[t+1]-x$Y[root8[5,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root8[5,(t-startcnumber8)/8]])^2),sqrt((x$X[t+2]-x$X[root8[5,(t-startcnumber8)/8]])^2+(x$Y[t+2]-x$Y[root8[5,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root8[5,(t-startcnumber8)/8]])^2),sqrt((x$X[t+3]-x$X[root8[5,(t-startcnumber8)/8]])^2+(x$Y[t+3]-x$Y[root8[5,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root8[5,(t-startcnumber8)/8]])^2),sqrt((x$X[t+4]-x$X[root8[5,(t-startcnumber8)/8]])^2+(x$Y[t+4]-x$Y[root8[5,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root8[5,(t-startcnumber8)/8]])^2),sqrt((x$X[t+5]-x$X[root8[5,(t-startcnumber8)/8]])^2+(x$Y[t+5]-x$Y[root8[5,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root8[5,(t-startcnumber8)/8]])^2),sqrt((x$X[t+6]-x$X[root8[5,(t-startcnumber8)/8]])^2+(x$Y[t+6]-x$Y[root8[5,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root8[5,(t-startcnumber8)/8]])^2),sqrt((x$X[t+7]-x$X[root8[5,(t-startcnumber8)/8]])^2+(x$Y[t+7]-x$Y[root8[5,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root8[5,(t-startcnumber8)/8]])^2))
+
+tmp86<-c(sqrt((x$X[t]-x$X[root8[6,(t-startcnumber8)/8]])^2+(x$Y[t]-x$Y[root8[6,(t-startcnumber8)/8]])^2+(hosei*x$Z[t]-hosei*x$Z[root8[6,(t-startcnumber8)/8]])^2),sqrt((x$X[t+1]-x$X[root8[6,(t-startcnumber8)/8]])^2+(x$Y[t+1]-x$Y[root8[6,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root8[6,(t-startcnumber8)/8]])^2),sqrt((x$X[t+2]-x$X[root8[6,(t-startcnumber8)/8]])^2+(x$Y[t+2]-x$Y[root8[6,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root8[6,(t-startcnumber8)/8]])^2),sqrt((x$X[t+3]-x$X[root8[6,(t-startcnumber8)/8]])^2+(x$Y[t+3]-x$Y[root8[6,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root8[6,(t-startcnumber8)/8]])^2),sqrt((x$X[t+4]-x$X[root8[6,(t-startcnumber8)/8]])^2+(x$Y[t+4]-x$Y[root8[6,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root8[6,(t-startcnumber8)/8]])^2),sqrt((x$X[t+5]-x$X[root8[6,(t-startcnumber8)/8]])^2+(x$Y[t+5]-x$Y[root8[6,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root8[6,(t-startcnumber8)/8]])^2),sqrt((x$X[t+6]-x$X[root8[6,(t-startcnumber8)/8]])^2+(x$Y[t+6]-x$Y[root8[6,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root8[6,(t-startcnumber8)/8]])^2),sqrt((x$X[t+7]-x$X[root8[6,(t-startcnumber8)/8]])^2+(x$Y[t+7]-x$Y[root8[6,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root8[6,(t-startcnumber8)/8]])^2))
+
+tmp87<-c(sqrt((x$X[t]-x$X[root8[7,(t-startcnumber8)/8]])^2+(x$Y[t]-x$Y[root8[7,(t-startcnumber8)/8]])^2+(hosei*x$Z[t]-hosei*x$Z[root8[7,(t-startcnumber8)/8]])^2),sqrt((x$X[t+1]-x$X[root8[7,(t-startcnumber8)/8]])^2+(x$Y[t+1]-x$Y[root8[7,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root8[7,(t-startcnumber8)/8]])^2),sqrt((x$X[t+2]-x$X[root8[7,(t-startcnumber8)/8]])^2+(x$Y[t+2]-x$Y[root8[7,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root8[7,(t-startcnumber8)/8]])^2),sqrt((x$X[t+3]-x$X[root8[7,(t-startcnumber8)/8]])^2+(x$Y[t+3]-x$Y[root8[7,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root8[7,(t-startcnumber8)/8]])^2),sqrt((x$X[t+4]-x$X[root8[7,(t-startcnumber8)/8]])^2+(x$Y[t+4]-x$Y[root8[7,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root8[7,(t-startcnumber8)/8]])^2),sqrt((x$X[t+5]-x$X[root8[7,(t-startcnumber8)/8]])^2+(x$Y[t+5]-x$Y[root8[7,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root8[7,(t-startcnumber8)/8]])^2),sqrt((x$X[t+6]-x$X[root8[7,(t-startcnumber8)/8]])^2+(x$Y[t+6]-x$Y[root8[7,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root8[7,(t-startcnumber8)/8]])^2),sqrt((x$X[t+7]-x$X[root8[7,(t-startcnumber8)/8]])^2+(x$Y[t+7]-x$Y[root8[7,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root8[7,(t-startcnumber8)/8]])^2))
+
+tmp88<-c(sqrt((x$X[t]-x$X[root8[8,(t-startcnumber8)/8]])^2+(x$Y[t]-x$Y[root8[8,(t-startcnumber8)/8]])^2+(hosei*x$Z[t]-hosei*x$Z[root8[8,(t-startcnumber8)/8]])^2),sqrt((x$X[t+1]-x$X[root8[8,(t-startcnumber8)/8]])^2+(x$Y[t+1]-x$Y[root8[8,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root8[8,(t-startcnumber8)/8]])^2),sqrt((x$X[t+2]-x$X[root8[8,(t-startcnumber8)/8]])^2+(x$Y[t+2]-x$Y[root8[8,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root8[8,(t-startcnumber8)/8]])^2),sqrt((x$X[t+3]-x$X[root8[8,(t-startcnumber8)/8]])^2+(x$Y[t+3]-x$Y[root8[8,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root8[8,(t-startcnumber8)/8]])^2),sqrt((x$X[t+4]-x$X[root8[8,(t-startcnumber8)/8]])^2+(x$Y[t+4]-x$Y[root8[8,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root8[8,(t-startcnumber8)/8]])^2),sqrt((x$X[t+5]-x$X[root8[8,(t-startcnumber8)/8]])^2+(x$Y[t+5]-x$Y[root8[8,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root8[8,(t-startcnumber8)/8]])^2),sqrt((x$X[t+6]-x$X[root8[8,(t-startcnumber8)/8]])^2+(x$Y[t+6]-x$Y[root8[8,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root8[8,(t-startcnumber8)/8]])^2),sqrt((x$X[t+7]-x$X[root8[8,(t-startcnumber8)/8]])^2+(x$Y[t+7]-x$Y[root8[8,(t-startcnumber8)/8]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root8[8,(t-startcnumber8)/8]])^2))
+
+numeight<-(t-startcnumber8)/8+1
+root8[1,numeight]<-(t+which.min(tmp81)-1)
+root8[2,numeight]<-(t+which.min(tmp82)-1)
+root8[3,numeight]<-(t+which.min(tmp83)-1)
+root8[4,numeight]<-(t+which.min(tmp84)-1)
+root8[5,numeight]<-(t+which.min(tmp85)-1)
+root8[6,numeight]<-(t+which.min(tmp86)-1)
+root8[7,numeight]<-(t+which.min(tmp87)-1)
+root8[8,numeight]<-(t+which.min(tmp88)-1)
+
+rmsdcell8[1,(t-startcnumber8)/8]<-min(tmp81)
+rmsdcell8[2,(t-startcnumber8)/8]<-min(tmp82)
+rmsdcell8[3,(t-startcnumber8)/8]<-min(tmp83)
+rmsdcell8[4,(t-startcnumber8)/8]<-min(tmp84)
+rmsdcell8[5,(t-startcnumber8)/8]<-min(tmp85)
+rmsdcell8[6,(t-startcnumber8)/8]<-min(tmp86)
+rmsdcell8[7,(t-startcnumber8)/8]<-min(tmp87)
+rmsdcell8[8,(t-startcnumber8)/8]<-min(tmp88)
+
+
+}
+
+}  
+
+rmsdcell8[9,]<-rmsdcell8[1,]+rmsdcell8[2,]+rmsdcell8[3,]+rmsdcell8[4,]+rmsdcell8[5,]+rmsdcell8[6,]+rmsdcell8[7,]+rmsdcell8[8,]
+
+plot(rmsdcell8[1,],type="b",col="blue",cex=2,lwd=2,lty=1,axes=F,ann=T, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell8[2,],type="b",col="red",cex=2,pch=15,lwd=2,lty=1,axes=F,ann=T, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell8[3,],type="b",col="green",cex=2,pch=16,lwd=3,lty=1,axes=F,ann=T, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell8[4,],type="b",col="gray",cex=2,pch=17,lwd=4,lty=1, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell8[5,],type="b",col="yellow",cex=2,lwd=2,lty=1,axes=F,ann=T, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell8[6,],type="b",col="cyan",cex=2,pch=15,lwd=2,lty=1,axes=F,ann=T, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell8[7,],type="b",col="orange",cex=2,pch=16,lwd=3,lty=1,axes=F,ann=T, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell8[8,],type="b",col="coral",cex=2,pch=17,lwd=4,lty=1, xlim=c(0,40), ylim=c(0,10))
+
+
+
+
+
+
+
+########16cell##################
+
+
+
+rmsdcell16<-matrix(nrow=17,ncol=celltime16-1)
+root16<-matrix(nrow=16,ncol=celltime16)
+root16[1,1]<-startcnumber16
+root16[2,1]<-startcnumber16+1
+root16[3,1]<-startcnumber16+2
+root16[4,1]<-startcnumber16+3
+root16[5,1]<-startcnumber16+4
+root16[6,1]<-startcnumber16+5
+root16[7,1]<-startcnumber16+6
+root16[8,1]<-startcnumber16+7
+root16[9,1]<-startcnumber16+8
+root16[10,1]<-startcnumber16+9
+root16[11,1]<-startcnumber16+10
+root16[12,1]<-startcnumber16+11
+root16[13,1]<-startcnumber16+12
+root16[14,1]<-startcnumber16+13
+root16[15,1]<-startcnumber16+14
+root16[16,1]<-startcnumber16+15
+
+
+t<-1
+
+ for (t in (startcnumber16+1):(endcnumber16)) {       
+   t <- t + 1                
+
+
+
+if((t-startcnumber16)%%16==0){
+tmp161<-c(sqrt((x$X[t]-x$X[root16[1,(t-startcnumber16)/16]])^2+(x$Y[t]-x$Y[root16[1,(t-startcnumber16)/16]])^2+(hosei*x$Z[t]-hosei*x$Z[root16[1,(t-startcnumber16)/16]])^2),sqrt((x$X[t+1]-x$X[root16[1,(t-startcnumber16)/16]])^2+(x$Y[t+1]-x$Y[root16[1,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root16[1,(t-startcnumber16)/16]])^2),sqrt((x$X[t+2]-x$X[root16[1,(t-startcnumber16)/16]])^2+(x$Y[t+2]-x$Y[root16[1,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root16[1,(t-startcnumber16)/16]])^2),sqrt((x$X[t+3]-x$X[root16[1,(t-startcnumber16)/16]])^2+(x$Y[t+3]-x$Y[root16[1,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root16[1,(t-startcnumber16)/16]])^2),sqrt((x$X[t+4]-x$X[root16[1,(t-startcnumber16)/16]])^2+(x$Y[t+4]-x$Y[root16[1,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root16[1,(t-startcnumber16)/16]])^2),sqrt((x$X[t+5]-x$X[root16[1,(t-startcnumber16)/16]])^2+(x$Y[t+5]-x$Y[root16[1,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root16[1,(t-startcnumber16)/16]])^2),sqrt((x$X[t+6]-x$X[root16[1,(t-startcnumber16)/16]])^2+(x$Y[t+6]-x$Y[root16[1,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root16[1,(t-startcnumber16)/16]])^2),sqrt((x$X[t+7]-x$X[root16[1,(t-startcnumber16)/16]])^2+(x$Y[t+7]-x$Y[root16[1,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root16[1,(t-startcnumber16)/16]])^2),sqrt((x$X[t+8]-x$X[root16[1,(t-startcnumber16)/16]])^2+(x$Y[t+8]-x$Y[root16[1,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+8]-hosei*x$Z[root16[1,(t-startcnumber16)/16]])^2),sqrt((x$X[t+9]-x$X[root16[1,(t-startcnumber16)/16]])^2+(x$Y[t+9]-x$Y[root16[1,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+9]-hosei*x$Z[root16[1,(t-startcnumber16)/16]])^2),sqrt((x$X[t+10]-x$X[root16[1,(t-startcnumber16)/16]])^2+(x$Y[t+10]-x$Y[root16[1,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+10]-hosei*x$Z[root16[1,(t-startcnumber16)/16]])^2),sqrt((x$X[t+11]-x$X[root16[1,(t-startcnumber16)/16]])^2+(x$Y[t+11]-x$Y[root16[1,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+11]-hosei*x$Z[root16[1,(t-startcnumber16)/16]])^2),sqrt((x$X[t+12]-x$X[root16[1,(t-startcnumber16)/16]])^2+(x$Y[t+12]-x$Y[root16[1,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+12]-hosei*x$Z[root16[1,(t-startcnumber16)/16]])^2),sqrt((x$X[t+13]-x$X[root16[1,(t-startcnumber16)/16]])^2+(x$Y[t+13]-x$Y[root16[1,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+13]-hosei*x$Z[root16[1,(t-startcnumber16)/16]])^2),sqrt((x$X[t+14]-x$X[root16[1,(t-startcnumber16)/16]])^2+(x$Y[t+14]-x$Y[root16[1,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+14]-hosei*x$Z[root16[1,(t-startcnumber16)/16]])^2),sqrt((x$X[t+15]-x$X[root16[1,(t-startcnumber16)/16]])^2+(x$Y[t+15]-x$Y[root16[1,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+15]-hosei*x$Z[root16[1,(t-startcnumber16)/16]])^2))
+
+tmp162<-c(sqrt((x$X[t]-x$X[root16[2,(t-startcnumber16)/16]])^2+(x$Y[t]-x$Y[root16[2,(t-startcnumber16)/16]])^2+(hosei*x$Z[t]-hosei*x$Z[root16[2,(t-startcnumber16)/16]])^2),sqrt((x$X[t+1]-x$X[root16[2,(t-startcnumber16)/16]])^2+(x$Y[t+1]-x$Y[root16[2,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root16[2,(t-startcnumber16)/16]])^2),sqrt((x$X[t+2]-x$X[root16[2,(t-startcnumber16)/16]])^2+(x$Y[t+2]-x$Y[root16[2,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root16[2,(t-startcnumber16)/16]])^2),sqrt((x$X[t+3]-x$X[root16[2,(t-startcnumber16)/16]])^2+(x$Y[t+3]-x$Y[root16[2,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root16[2,(t-startcnumber16)/16]])^2),sqrt((x$X[t+4]-x$X[root16[2,(t-startcnumber16)/16]])^2+(x$Y[t+4]-x$Y[root16[2,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root16[2,(t-startcnumber16)/16]])^2),sqrt((x$X[t+5]-x$X[root16[2,(t-startcnumber16)/16]])^2+(x$Y[t+5]-x$Y[root16[2,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root16[2,(t-startcnumber16)/16]])^2),sqrt((x$X[t+6]-x$X[root16[2,(t-startcnumber16)/16]])^2+(x$Y[t+6]-x$Y[root16[2,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root16[2,(t-startcnumber16)/16]])^2),sqrt((x$X[t+7]-x$X[root16[2,(t-startcnumber16)/16]])^2+(x$Y[t+7]-x$Y[root16[2,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root16[2,(t-startcnumber16)/16]])^2),sqrt((x$X[t+8]-x$X[root16[2,(t-startcnumber16)/16]])^2+(x$Y[t+8]-x$Y[root16[2,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+8]-hosei*x$Z[root16[2,(t-startcnumber16)/16]])^2),sqrt((x$X[t+9]-x$X[root16[2,(t-startcnumber16)/16]])^2+(x$Y[t+9]-x$Y[root16[2,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+9]-hosei*x$Z[root16[2,(t-startcnumber16)/16]])^2),sqrt((x$X[t+10]-x$X[root16[2,(t-startcnumber16)/16]])^2+(x$Y[t+10]-x$Y[root16[2,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+10]-hosei*x$Z[root16[2,(t-startcnumber16)/16]])^2),sqrt((x$X[t+11]-x$X[root16[2,(t-startcnumber16)/16]])^2+(x$Y[t+11]-x$Y[root16[2,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+11]-hosei*x$Z[root16[2,(t-startcnumber16)/16]])^2),sqrt((x$X[t+12]-x$X[root16[2,(t-startcnumber16)/16]])^2+(x$Y[t+12]-x$Y[root16[2,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+12]-hosei*x$Z[root16[2,(t-startcnumber16)/16]])^2),sqrt((x$X[t+13]-x$X[root16[2,(t-startcnumber16)/16]])^2+(x$Y[t+13]-x$Y[root16[2,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+13]-hosei*x$Z[root16[2,(t-startcnumber16)/16]])^2),sqrt((x$X[t+14]-x$X[root16[2,(t-startcnumber16)/16]])^2+(x$Y[t+14]-x$Y[root16[2,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+14]-hosei*x$Z[root16[2,(t-startcnumber16)/16]])^2),sqrt((x$X[t+15]-x$X[root16[2,(t-startcnumber16)/16]])^2+(x$Y[t+15]-x$Y[root16[2,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+15]-hosei*x$Z[root16[2,(t-startcnumber16)/16]])^2))
+
+tmp163<-c(sqrt((x$X[t]-x$X[root16[3,(t-startcnumber16)/16]])^2+(x$Y[t]-x$Y[root16[3,(t-startcnumber16)/16]])^2+(hosei*x$Z[t]-hosei*x$Z[root16[3,(t-startcnumber16)/16]])^2),sqrt((x$X[t+1]-x$X[root16[3,(t-startcnumber16)/16]])^2+(x$Y[t+1]-x$Y[root16[3,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root16[3,(t-startcnumber16)/16]])^2),sqrt((x$X[t+2]-x$X[root16[3,(t-startcnumber16)/16]])^2+(x$Y[t+2]-x$Y[root16[3,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root16[3,(t-startcnumber16)/16]])^2),sqrt((x$X[t+3]-x$X[root16[3,(t-startcnumber16)/16]])^2+(x$Y[t+3]-x$Y[root16[3,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root16[3,(t-startcnumber16)/16]])^2),sqrt((x$X[t+4]-x$X[root16[3,(t-startcnumber16)/16]])^2+(x$Y[t+4]-x$Y[root16[3,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root16[3,(t-startcnumber16)/16]])^2),sqrt((x$X[t+5]-x$X[root16[3,(t-startcnumber16)/16]])^2+(x$Y[t+5]-x$Y[root16[3,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root16[3,(t-startcnumber16)/16]])^2),sqrt((x$X[t+6]-x$X[root16[3,(t-startcnumber16)/16]])^2+(x$Y[t+6]-x$Y[root16[3,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root16[3,(t-startcnumber16)/16]])^2),sqrt((x$X[t+7]-x$X[root16[3,(t-startcnumber16)/16]])^2+(x$Y[t+7]-x$Y[root16[3,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root16[3,(t-startcnumber16)/16]])^2),sqrt((x$X[t+8]-x$X[root16[3,(t-startcnumber16)/16]])^2+(x$Y[t+8]-x$Y[root16[3,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+8]-hosei*x$Z[root16[3,(t-startcnumber16)/16]])^2),sqrt((x$X[t+9]-x$X[root16[3,(t-startcnumber16)/16]])^2+(x$Y[t+9]-x$Y[root16[3,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+9]-hosei*x$Z[root16[3,(t-startcnumber16)/16]])^2),sqrt((x$X[t+10]-x$X[root16[3,(t-startcnumber16)/16]])^2+(x$Y[t+10]-x$Y[root16[3,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+10]-hosei*x$Z[root16[3,(t-startcnumber16)/16]])^2),sqrt((x$X[t+11]-x$X[root16[3,(t-startcnumber16)/16]])^2+(x$Y[t+11]-x$Y[root16[3,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+11]-hosei*x$Z[root16[3,(t-startcnumber16)/16]])^2),sqrt((x$X[t+12]-x$X[root16[3,(t-startcnumber16)/16]])^2+(x$Y[t+12]-x$Y[root16[3,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+12]-hosei*x$Z[root16[3,(t-startcnumber16)/16]])^2),sqrt((x$X[t+13]-x$X[root16[3,(t-startcnumber16)/16]])^2+(x$Y[t+13]-x$Y[root16[3,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+13]-hosei*x$Z[root16[3,(t-startcnumber16)/16]])^2),sqrt((x$X[t+14]-x$X[root16[3,(t-startcnumber16)/16]])^2+(x$Y[t+14]-x$Y[root16[3,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+14]-hosei*x$Z[root16[3,(t-startcnumber16)/16]])^2),sqrt((x$X[t+15]-x$X[root16[3,(t-startcnumber16)/16]])^2+(x$Y[t+15]-x$Y[root16[3,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+15]-hosei*x$Z[root16[3,(t-startcnumber16)/16]])^2))
+
+tmp164<-c(sqrt((x$X[t]-x$X[root16[4,(t-startcnumber16)/16]])^2+(x$Y[t]-x$Y[root16[4,(t-startcnumber16)/16]])^2+(hosei*x$Z[t]-hosei*x$Z[root16[4,(t-startcnumber16)/16]])^2),sqrt((x$X[t+1]-x$X[root16[4,(t-startcnumber16)/16]])^2+(x$Y[t+1]-x$Y[root16[4,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root16[4,(t-startcnumber16)/16]])^2),sqrt((x$X[t+2]-x$X[root16[4,(t-startcnumber16)/16]])^2+(x$Y[t+2]-x$Y[root16[4,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root16[4,(t-startcnumber16)/16]])^2),sqrt((x$X[t+3]-x$X[root16[4,(t-startcnumber16)/16]])^2+(x$Y[t+3]-x$Y[root16[4,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root16[4,(t-startcnumber16)/16]])^2),sqrt((x$X[t+4]-x$X[root16[4,(t-startcnumber16)/16]])^2+(x$Y[t+4]-x$Y[root16[4,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root16[4,(t-startcnumber16)/16]])^2),sqrt((x$X[t+5]-x$X[root16[4,(t-startcnumber16)/16]])^2+(x$Y[t+5]-x$Y[root16[4,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root16[4,(t-startcnumber16)/16]])^2),sqrt((x$X[t+6]-x$X[root16[4,(t-startcnumber16)/16]])^2+(x$Y[t+6]-x$Y[root16[4,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root16[4,(t-startcnumber16)/16]])^2),sqrt((x$X[t+7]-x$X[root16[4,(t-startcnumber16)/16]])^2+(x$Y[t+7]-x$Y[root16[4,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root16[4,(t-startcnumber16)/16]])^2),sqrt((x$X[t+8]-x$X[root16[4,(t-startcnumber16)/16]])^2+(x$Y[t+8]-x$Y[root16[4,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+8]-hosei*x$Z[root16[4,(t-startcnumber16)/16]])^2),sqrt((x$X[t+9]-x$X[root16[4,(t-startcnumber16)/16]])^2+(x$Y[t+9]-x$Y[root16[4,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+9]-hosei*x$Z[root16[4,(t-startcnumber16)/16]])^2),sqrt((x$X[t+10]-x$X[root16[4,(t-startcnumber16)/16]])^2+(x$Y[t+10]-x$Y[root16[4,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+10]-hosei*x$Z[root16[4,(t-startcnumber16)/16]])^2),sqrt((x$X[t+11]-x$X[root16[4,(t-startcnumber16)/16]])^2+(x$Y[t+11]-x$Y[root16[4,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+11]-hosei*x$Z[root16[4,(t-startcnumber16)/16]])^2),sqrt((x$X[t+12]-x$X[root16[4,(t-startcnumber16)/16]])^2+(x$Y[t+12]-x$Y[root16[4,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+12]-hosei*x$Z[root16[4,(t-startcnumber16)/16]])^2),sqrt((x$X[t+13]-x$X[root16[4,(t-startcnumber16)/16]])^2+(x$Y[t+13]-x$Y[root16[4,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+13]-hosei*x$Z[root16[4,(t-startcnumber16)/16]])^2),sqrt((x$X[t+14]-x$X[root16[4,(t-startcnumber16)/16]])^2+(x$Y[t+14]-x$Y[root16[4,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+14]-hosei*x$Z[root16[4,(t-startcnumber16)/16]])^2),sqrt((x$X[t+15]-x$X[root16[4,(t-startcnumber16)/16]])^2+(x$Y[t+15]-x$Y[root16[4,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+15]-hosei*x$Z[root16[4,(t-startcnumber16)/16]])^2))
+
+tmp165<-c(sqrt((x$X[t]-x$X[root16[5,(t-startcnumber16)/16]])^2+(x$Y[t]-x$Y[root16[5,(t-startcnumber16)/16]])^2+(hosei*x$Z[t]-hosei*x$Z[root16[5,(t-startcnumber16)/16]])^2),sqrt((x$X[t+1]-x$X[root16[5,(t-startcnumber16)/16]])^2+(x$Y[t+1]-x$Y[root16[5,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root16[5,(t-startcnumber16)/16]])^2),sqrt((x$X[t+2]-x$X[root16[5,(t-startcnumber16)/16]])^2+(x$Y[t+2]-x$Y[root16[5,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root16[5,(t-startcnumber16)/16]])^2),sqrt((x$X[t+3]-x$X[root16[5,(t-startcnumber16)/16]])^2+(x$Y[t+3]-x$Y[root16[5,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root16[5,(t-startcnumber16)/16]])^2),sqrt((x$X[t+4]-x$X[root16[5,(t-startcnumber16)/16]])^2+(x$Y[t+4]-x$Y[root16[5,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root16[5,(t-startcnumber16)/16]])^2),sqrt((x$X[t+5]-x$X[root16[5,(t-startcnumber16)/16]])^2+(x$Y[t+5]-x$Y[root16[5,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root16[5,(t-startcnumber16)/16]])^2),sqrt((x$X[t+6]-x$X[root16[5,(t-startcnumber16)/16]])^2+(x$Y[t+6]-x$Y[root16[5,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root16[5,(t-startcnumber16)/16]])^2),sqrt((x$X[t+7]-x$X[root16[5,(t-startcnumber16)/16]])^2+(x$Y[t+7]-x$Y[root16[5,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root16[5,(t-startcnumber16)/16]])^2),sqrt((x$X[t+8]-x$X[root16[5,(t-startcnumber16)/16]])^2+(x$Y[t+8]-x$Y[root16[5,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+8]-hosei*x$Z[root16[5,(t-startcnumber16)/16]])^2),sqrt((x$X[t+9]-x$X[root16[5,(t-startcnumber16)/16]])^2+(x$Y[t+9]-x$Y[root16[5,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+9]-hosei*x$Z[root16[5,(t-startcnumber16)/16]])^2),sqrt((x$X[t+10]-x$X[root16[5,(t-startcnumber16)/16]])^2+(x$Y[t+10]-x$Y[root16[5,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+10]-hosei*x$Z[root16[5,(t-startcnumber16)/16]])^2),sqrt((x$X[t+11]-x$X[root16[5,(t-startcnumber16)/16]])^2+(x$Y[t+11]-x$Y[root16[5,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+11]-hosei*x$Z[root16[5,(t-startcnumber16)/16]])^2),sqrt((x$X[t+12]-x$X[root16[5,(t-startcnumber16)/16]])^2+(x$Y[t+12]-x$Y[root16[5,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+12]-hosei*x$Z[root16[5,(t-startcnumber16)/16]])^2),sqrt((x$X[t+13]-x$X[root16[5,(t-startcnumber16)/16]])^2+(x$Y[t+13]-x$Y[root16[5,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+13]-hosei*x$Z[root16[5,(t-startcnumber16)/16]])^2),sqrt((x$X[t+14]-x$X[root16[5,(t-startcnumber16)/16]])^2+(x$Y[t+14]-x$Y[root16[5,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+14]-hosei*x$Z[root16[5,(t-startcnumber16)/16]])^2),sqrt((x$X[t+15]-x$X[root16[5,(t-startcnumber16)/16]])^2+(x$Y[t+15]-x$Y[root16[5,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+15]-hosei*x$Z[root16[5,(t-startcnumber16)/16]])^2))
+
+tmp166<-c(sqrt((x$X[t]-x$X[root16[6,(t-startcnumber16)/16]])^2+(x$Y[t]-x$Y[root16[6,(t-startcnumber16)/16]])^2+(hosei*x$Z[t]-hosei*x$Z[root16[6,(t-startcnumber16)/16]])^2),sqrt((x$X[t+1]-x$X[root16[6,(t-startcnumber16)/16]])^2+(x$Y[t+1]-x$Y[root16[6,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root16[6,(t-startcnumber16)/16]])^2),sqrt((x$X[t+2]-x$X[root16[6,(t-startcnumber16)/16]])^2+(x$Y[t+2]-x$Y[root16[6,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root16[6,(t-startcnumber16)/16]])^2),sqrt((x$X[t+3]-x$X[root16[6,(t-startcnumber16)/16]])^2+(x$Y[t+3]-x$Y[root16[6,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root16[6,(t-startcnumber16)/16]])^2),sqrt((x$X[t+4]-x$X[root16[6,(t-startcnumber16)/16]])^2+(x$Y[t+4]-x$Y[root16[6,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root16[6,(t-startcnumber16)/16]])^2),sqrt((x$X[t+5]-x$X[root16[6,(t-startcnumber16)/16]])^2+(x$Y[t+5]-x$Y[root16[6,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root16[6,(t-startcnumber16)/16]])^2),sqrt((x$X[t+6]-x$X[root16[6,(t-startcnumber16)/16]])^2+(x$Y[t+6]-x$Y[root16[6,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root16[6,(t-startcnumber16)/16]])^2),sqrt((x$X[t+7]-x$X[root16[6,(t-startcnumber16)/16]])^2+(x$Y[t+7]-x$Y[root16[6,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root16[6,(t-startcnumber16)/16]])^2),sqrt((x$X[t+8]-x$X[root16[6,(t-startcnumber16)/16]])^2+(x$Y[t+8]-x$Y[root16[6,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+8]-hosei*x$Z[root16[6,(t-startcnumber16)/16]])^2),sqrt((x$X[t+9]-x$X[root16[6,(t-startcnumber16)/16]])^2+(x$Y[t+9]-x$Y[root16[6,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+9]-hosei*x$Z[root16[6,(t-startcnumber16)/16]])^2),sqrt((x$X[t+10]-x$X[root16[6,(t-startcnumber16)/16]])^2+(x$Y[t+10]-x$Y[root16[6,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+10]-hosei*x$Z[root16[6,(t-startcnumber16)/16]])^2),sqrt((x$X[t+11]-x$X[root16[6,(t-startcnumber16)/16]])^2+(x$Y[t+11]-x$Y[root16[6,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+11]-hosei*x$Z[root16[6,(t-startcnumber16)/16]])^2),sqrt((x$X[t+12]-x$X[root16[6,(t-startcnumber16)/16]])^2+(x$Y[t+12]-x$Y[root16[6,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+12]-hosei*x$Z[root16[6,(t-startcnumber16)/16]])^2),sqrt((x$X[t+13]-x$X[root16[6,(t-startcnumber16)/16]])^2+(x$Y[t+13]-x$Y[root16[6,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+13]-hosei*x$Z[root16[6,(t-startcnumber16)/16]])^2),sqrt((x$X[t+14]-x$X[root16[6,(t-startcnumber16)/16]])^2+(x$Y[t+14]-x$Y[root16[6,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+14]-hosei*x$Z[root16[6,(t-startcnumber16)/16]])^2),sqrt((x$X[t+15]-x$X[root16[6,(t-startcnumber16)/16]])^2+(x$Y[t+15]-x$Y[root16[6,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+15]-hosei*x$Z[root16[6,(t-startcnumber16)/16]])^2))
+
+tmp167<-c(sqrt((x$X[t]-x$X[root16[7,(t-startcnumber16)/16]])^2+(x$Y[t]-x$Y[root16[7,(t-startcnumber16)/16]])^2+(hosei*x$Z[t]-hosei*x$Z[root16[7,(t-startcnumber16)/16]])^2),sqrt((x$X[t+1]-x$X[root16[7,(t-startcnumber16)/16]])^2+(x$Y[t+1]-x$Y[root16[7,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root16[7,(t-startcnumber16)/16]])^2),sqrt((x$X[t+2]-x$X[root16[7,(t-startcnumber16)/16]])^2+(x$Y[t+2]-x$Y[root16[7,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root16[7,(t-startcnumber16)/16]])^2),sqrt((x$X[t+3]-x$X[root16[7,(t-startcnumber16)/16]])^2+(x$Y[t+3]-x$Y[root16[7,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root16[7,(t-startcnumber16)/16]])^2),sqrt((x$X[t+4]-x$X[root16[7,(t-startcnumber16)/16]])^2+(x$Y[t+4]-x$Y[root16[7,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root16[7,(t-startcnumber16)/16]])^2),sqrt((x$X[t+5]-x$X[root16[7,(t-startcnumber16)/16]])^2+(x$Y[t+5]-x$Y[root16[7,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root16[7,(t-startcnumber16)/16]])^2),sqrt((x$X[t+6]-x$X[root16[7,(t-startcnumber16)/16]])^2+(x$Y[t+6]-x$Y[root16[7,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root16[7,(t-startcnumber16)/16]])^2),sqrt((x$X[t+7]-x$X[root16[7,(t-startcnumber16)/16]])^2+(x$Y[t+7]-x$Y[root16[7,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root16[7,(t-startcnumber16)/16]])^2),sqrt((x$X[t+8]-x$X[root16[7,(t-startcnumber16)/16]])^2+(x$Y[t+8]-x$Y[root16[7,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+8]-hosei*x$Z[root16[7,(t-startcnumber16)/16]])^2),sqrt((x$X[t+9]-x$X[root16[7,(t-startcnumber16)/16]])^2+(x$Y[t+9]-x$Y[root16[7,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+9]-hosei*x$Z[root16[7,(t-startcnumber16)/16]])^2),sqrt((x$X[t+10]-x$X[root16[7,(t-startcnumber16)/16]])^2+(x$Y[t+10]-x$Y[root16[7,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+10]-hosei*x$Z[root16[7,(t-startcnumber16)/16]])^2),sqrt((x$X[t+11]-x$X[root16[7,(t-startcnumber16)/16]])^2+(x$Y[t+11]-x$Y[root16[7,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+11]-hosei*x$Z[root16[7,(t-startcnumber16)/16]])^2),sqrt((x$X[t+12]-x$X[root16[7,(t-startcnumber16)/16]])^2+(x$Y[t+12]-x$Y[root16[7,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+12]-hosei*x$Z[root16[7,(t-startcnumber16)/16]])^2),sqrt((x$X[t+13]-x$X[root16[7,(t-startcnumber16)/16]])^2+(x$Y[t+13]-x$Y[root16[7,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+13]-hosei*x$Z[root16[7,(t-startcnumber16)/16]])^2),sqrt((x$X[t+14]-x$X[root16[7,(t-startcnumber16)/16]])^2+(x$Y[t+14]-x$Y[root16[7,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+14]-hosei*x$Z[root16[7,(t-startcnumber16)/16]])^2),sqrt((x$X[t+15]-x$X[root16[7,(t-startcnumber16)/16]])^2+(x$Y[t+15]-x$Y[root16[7,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+15]-hosei*x$Z[root16[7,(t-startcnumber16)/16]])^2))
+
+tmp168<-c(sqrt((x$X[t]-x$X[root16[8,(t-startcnumber16)/16]])^2+(x$Y[t]-x$Y[root16[8,(t-startcnumber16)/16]])^2+(hosei*x$Z[t]-hosei*x$Z[root16[8,(t-startcnumber16)/16]])^2),sqrt((x$X[t+1]-x$X[root16[8,(t-startcnumber16)/16]])^2+(x$Y[t+1]-x$Y[root16[8,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root16[8,(t-startcnumber16)/16]])^2),sqrt((x$X[t+2]-x$X[root16[8,(t-startcnumber16)/16]])^2+(x$Y[t+2]-x$Y[root16[8,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root16[8,(t-startcnumber16)/16]])^2),sqrt((x$X[t+3]-x$X[root16[8,(t-startcnumber16)/16]])^2+(x$Y[t+3]-x$Y[root16[8,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root16[8,(t-startcnumber16)/16]])^2),sqrt((x$X[t+4]-x$X[root16[8,(t-startcnumber16)/16]])^2+(x$Y[t+4]-x$Y[root16[8,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root16[8,(t-startcnumber16)/16]])^2),sqrt((x$X[t+5]-x$X[root16[8,(t-startcnumber16)/16]])^2+(x$Y[t+5]-x$Y[root16[8,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root16[8,(t-startcnumber16)/16]])^2),sqrt((x$X[t+6]-x$X[root16[8,(t-startcnumber16)/16]])^2+(x$Y[t+6]-x$Y[root16[8,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root16[8,(t-startcnumber16)/16]])^2),sqrt((x$X[t+7]-x$X[root16[8,(t-startcnumber16)/16]])^2+(x$Y[t+7]-x$Y[root16[8,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root16[8,(t-startcnumber16)/16]])^2),sqrt((x$X[t+8]-x$X[root16[8,(t-startcnumber16)/16]])^2+(x$Y[t+8]-x$Y[root16[8,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+8]-hosei*x$Z[root16[8,(t-startcnumber16)/16]])^2),sqrt((x$X[t+9]-x$X[root16[8,(t-startcnumber16)/16]])^2+(x$Y[t+9]-x$Y[root16[8,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+9]-hosei*x$Z[root16[8,(t-startcnumber16)/16]])^2),sqrt((x$X[t+10]-x$X[root16[8,(t-startcnumber16)/16]])^2+(x$Y[t+10]-x$Y[root16[8,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+10]-hosei*x$Z[root16[8,(t-startcnumber16)/16]])^2),sqrt((x$X[t+11]-x$X[root16[8,(t-startcnumber16)/16]])^2+(x$Y[t+11]-x$Y[root16[8,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+11]-hosei*x$Z[root16[8,(t-startcnumber16)/16]])^2),sqrt((x$X[t+12]-x$X[root16[8,(t-startcnumber16)/16]])^2+(x$Y[t+12]-x$Y[root16[8,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+12]-hosei*x$Z[root16[8,(t-startcnumber16)/16]])^2),sqrt((x$X[t+13]-x$X[root16[8,(t-startcnumber16)/16]])^2+(x$Y[t+13]-x$Y[root16[8,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+13]-hosei*x$Z[root16[8,(t-startcnumber16)/16]])^2),sqrt((x$X[t+14]-x$X[root16[8,(t-startcnumber16)/16]])^2+(x$Y[t+14]-x$Y[root16[8,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+14]-hosei*x$Z[root16[8,(t-startcnumber16)/16]])^2),sqrt((x$X[t+15]-x$X[root16[8,(t-startcnumber16)/16]])^2+(x$Y[t+15]-x$Y[root16[8,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+15]-hosei*x$Z[root16[8,(t-startcnumber16)/16]])^2))
+
+tmp169<-c(sqrt((x$X[t]-x$X[root16[9,(t-startcnumber16)/16]])^2+(x$Y[t]-x$Y[root16[9,(t-startcnumber16)/16]])^2+(hosei*x$Z[t]-hosei*x$Z[root16[9,(t-startcnumber16)/16]])^2),sqrt((x$X[t+1]-x$X[root16[9,(t-startcnumber16)/16]])^2+(x$Y[t+1]-x$Y[root16[9,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root16[9,(t-startcnumber16)/16]])^2),sqrt((x$X[t+2]-x$X[root16[9,(t-startcnumber16)/16]])^2+(x$Y[t+2]-x$Y[root16[9,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root16[9,(t-startcnumber16)/16]])^2),sqrt((x$X[t+3]-x$X[root16[9,(t-startcnumber16)/16]])^2+(x$Y[t+3]-x$Y[root16[9,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root16[9,(t-startcnumber16)/16]])^2),sqrt((x$X[t+4]-x$X[root16[9,(t-startcnumber16)/16]])^2+(x$Y[t+4]-x$Y[root16[9,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root16[9,(t-startcnumber16)/16]])^2),sqrt((x$X[t+5]-x$X[root16[9,(t-startcnumber16)/16]])^2+(x$Y[t+5]-x$Y[root16[9,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root16[9,(t-startcnumber16)/16]])^2),sqrt((x$X[t+6]-x$X[root16[9,(t-startcnumber16)/16]])^2+(x$Y[t+6]-x$Y[root16[9,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root16[9,(t-startcnumber16)/16]])^2),sqrt((x$X[t+7]-x$X[root16[9,(t-startcnumber16)/16]])^2+(x$Y[t+7]-x$Y[root16[9,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root16[9,(t-startcnumber16)/16]])^2),sqrt((x$X[t+8]-x$X[root16[9,(t-startcnumber16)/16]])^2+(x$Y[t+8]-x$Y[root16[9,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+8]-hosei*x$Z[root16[9,(t-startcnumber16)/16]])^2),sqrt((x$X[t+9]-x$X[root16[9,(t-startcnumber16)/16]])^2+(x$Y[t+9]-x$Y[root16[9,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+9]-hosei*x$Z[root16[9,(t-startcnumber16)/16]])^2),sqrt((x$X[t+10]-x$X[root16[9,(t-startcnumber16)/16]])^2+(x$Y[t+10]-x$Y[root16[9,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+10]-hosei*x$Z[root16[9,(t-startcnumber16)/16]])^2),sqrt((x$X[t+11]-x$X[root16[9,(t-startcnumber16)/16]])^2+(x$Y[t+11]-x$Y[root16[9,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+11]-hosei*x$Z[root16[9,(t-startcnumber16)/16]])^2),sqrt((x$X[t+12]-x$X[root16[9,(t-startcnumber16)/16]])^2+(x$Y[t+12]-x$Y[root16[9,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+12]-hosei*x$Z[root16[9,(t-startcnumber16)/16]])^2),sqrt((x$X[t+13]-x$X[root16[9,(t-startcnumber16)/16]])^2+(x$Y[t+13]-x$Y[root16[9,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+13]-hosei*x$Z[root16[9,(t-startcnumber16)/16]])^2),sqrt((x$X[t+14]-x$X[root16[9,(t-startcnumber16)/16]])^2+(x$Y[t+14]-x$Y[root16[9,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+14]-hosei*x$Z[root16[9,(t-startcnumber16)/16]])^2),sqrt((x$X[t+15]-x$X[root16[9,(t-startcnumber16)/16]])^2+(x$Y[t+15]-x$Y[root16[9,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+15]-hosei*x$Z[root16[9,(t-startcnumber16)/16]])^2))
+
+tmp1610<-c(sqrt((x$X[t]-x$X[root16[10,(t-startcnumber16)/16]])^2+(x$Y[t]-x$Y[root16[10,(t-startcnumber16)/16]])^2+(hosei*x$Z[t]-hosei*x$Z[root16[10,(t-startcnumber16)/16]])^2),sqrt((x$X[t+1]-x$X[root16[10,(t-startcnumber16)/16]])^2+(x$Y[t+1]-x$Y[root16[10,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root16[10,(t-startcnumber16)/16]])^2),sqrt((x$X[t+2]-x$X[root16[10,(t-startcnumber16)/16]])^2+(x$Y[t+2]-x$Y[root16[10,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root16[10,(t-startcnumber16)/16]])^2),sqrt((x$X[t+3]-x$X[root16[10,(t-startcnumber16)/16]])^2+(x$Y[t+3]-x$Y[root16[10,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root16[10,(t-startcnumber16)/16]])^2),sqrt((x$X[t+4]-x$X[root16[10,(t-startcnumber16)/16]])^2+(x$Y[t+4]-x$Y[root16[10,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root16[10,(t-startcnumber16)/16]])^2),sqrt((x$X[t+5]-x$X[root16[10,(t-startcnumber16)/16]])^2+(x$Y[t+5]-x$Y[root16[10,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root16[10,(t-startcnumber16)/16]])^2),sqrt((x$X[t+6]-x$X[root16[10,(t-startcnumber16)/16]])^2+(x$Y[t+6]-x$Y[root16[10,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root16[10,(t-startcnumber16)/16]])^2),sqrt((x$X[t+7]-x$X[root16[10,(t-startcnumber16)/16]])^2+(x$Y[t+7]-x$Y[root16[10,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root16[10,(t-startcnumber16)/16]])^2),sqrt((x$X[t+8]-x$X[root16[10,(t-startcnumber16)/16]])^2+(x$Y[t+8]-x$Y[root16[10,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+8]-hosei*x$Z[root16[10,(t-startcnumber16)/16]])^2),sqrt((x$X[t+9]-x$X[root16[10,(t-startcnumber16)/16]])^2+(x$Y[t+9]-x$Y[root16[10,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+9]-hosei*x$Z[root16[10,(t-startcnumber16)/16]])^2),sqrt((x$X[t+10]-x$X[root16[10,(t-startcnumber16)/16]])^2+(x$Y[t+10]-x$Y[root16[10,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+10]-hosei*x$Z[root16[10,(t-startcnumber16)/16]])^2),sqrt((x$X[t+11]-x$X[root16[10,(t-startcnumber16)/16]])^2+(x$Y[t+11]-x$Y[root16[10,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+11]-hosei*x$Z[root16[10,(t-startcnumber16)/16]])^2),sqrt((x$X[t+12]-x$X[root16[10,(t-startcnumber16)/16]])^2+(x$Y[t+12]-x$Y[root16[10,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+12]-hosei*x$Z[root16[10,(t-startcnumber16)/16]])^2),sqrt((x$X[t+13]-x$X[root16[10,(t-startcnumber16)/16]])^2+(x$Y[t+13]-x$Y[root16[10,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+13]-hosei*x$Z[root16[10,(t-startcnumber16)/16]])^2),sqrt((x$X[t+14]-x$X[root16[10,(t-startcnumber16)/16]])^2+(x$Y[t+14]-x$Y[root16[10,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+14]-hosei*x$Z[root16[10,(t-startcnumber16)/16]])^2),sqrt((x$X[t+15]-x$X[root16[10,(t-startcnumber16)/16]])^2+(x$Y[t+15]-x$Y[root16[10,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+15]-hosei*x$Z[root16[10,(t-startcnumber16)/16]])^2))
+
+tmp1611<-c(sqrt((x$X[t]-x$X[root16[11,(t-startcnumber16)/16]])^2+(x$Y[t]-x$Y[root16[11,(t-startcnumber16)/16]])^2+(hosei*x$Z[t]-hosei*x$Z[root16[11,(t-startcnumber16)/16]])^2),sqrt((x$X[t+1]-x$X[root16[11,(t-startcnumber16)/16]])^2+(x$Y[t+1]-x$Y[root16[11,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root16[11,(t-startcnumber16)/16]])^2),sqrt((x$X[t+2]-x$X[root16[11,(t-startcnumber16)/16]])^2+(x$Y[t+2]-x$Y[root16[11,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root16[11,(t-startcnumber16)/16]])^2),sqrt((x$X[t+3]-x$X[root16[11,(t-startcnumber16)/16]])^2+(x$Y[t+3]-x$Y[root16[11,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root16[11,(t-startcnumber16)/16]])^2),sqrt((x$X[t+4]-x$X[root16[11,(t-startcnumber16)/16]])^2+(x$Y[t+4]-x$Y[root16[11,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root16[11,(t-startcnumber16)/16]])^2),sqrt((x$X[t+5]-x$X[root16[11,(t-startcnumber16)/16]])^2+(x$Y[t+5]-x$Y[root16[11,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root16[11,(t-startcnumber16)/16]])^2),sqrt((x$X[t+6]-x$X[root16[11,(t-startcnumber16)/16]])^2+(x$Y[t+6]-x$Y[root16[11,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root16[11,(t-startcnumber16)/16]])^2),sqrt((x$X[t+7]-x$X[root16[11,(t-startcnumber16)/16]])^2+(x$Y[t+7]-x$Y[root16[11,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root16[11,(t-startcnumber16)/16]])^2),sqrt((x$X[t+8]-x$X[root16[11,(t-startcnumber16)/16]])^2+(x$Y[t+8]-x$Y[root16[11,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+8]-hosei*x$Z[root16[11,(t-startcnumber16)/16]])^2),sqrt((x$X[t+9]-x$X[root16[11,(t-startcnumber16)/16]])^2+(x$Y[t+9]-x$Y[root16[11,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+9]-hosei*x$Z[root16[11,(t-startcnumber16)/16]])^2),sqrt((x$X[t+10]-x$X[root16[11,(t-startcnumber16)/16]])^2+(x$Y[t+10]-x$Y[root16[11,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+10]-hosei*x$Z[root16[11,(t-startcnumber16)/16]])^2),sqrt((x$X[t+11]-x$X[root16[11,(t-startcnumber16)/16]])^2+(x$Y[t+11]-x$Y[root16[11,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+11]-hosei*x$Z[root16[11,(t-startcnumber16)/16]])^2),sqrt((x$X[t+12]-x$X[root16[11,(t-startcnumber16)/16]])^2+(x$Y[t+12]-x$Y[root16[11,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+12]-hosei*x$Z[root16[11,(t-startcnumber16)/16]])^2),sqrt((x$X[t+13]-x$X[root16[11,(t-startcnumber16)/16]])^2+(x$Y[t+13]-x$Y[root16[11,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+13]-hosei*x$Z[root16[11,(t-startcnumber16)/16]])^2),sqrt((x$X[t+14]-x$X[root16[11,(t-startcnumber16)/16]])^2+(x$Y[t+14]-x$Y[root16[11,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+14]-hosei*x$Z[root16[11,(t-startcnumber16)/16]])^2),sqrt((x$X[t+15]-x$X[root16[11,(t-startcnumber16)/16]])^2+(x$Y[t+15]-x$Y[root16[11,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+15]-hosei*x$Z[root16[11,(t-startcnumber16)/16]])^2))
+
+tmp1612<-c(sqrt((x$X[t]-x$X[root16[12,(t-startcnumber16)/16]])^2+(x$Y[t]-x$Y[root16[12,(t-startcnumber16)/16]])^2+(hosei*x$Z[t]-hosei*x$Z[root16[12,(t-startcnumber16)/16]])^2),sqrt((x$X[t+1]-x$X[root16[12,(t-startcnumber16)/16]])^2+(x$Y[t+1]-x$Y[root16[12,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root16[12,(t-startcnumber16)/16]])^2),sqrt((x$X[t+2]-x$X[root16[12,(t-startcnumber16)/16]])^2+(x$Y[t+2]-x$Y[root16[12,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root16[12,(t-startcnumber16)/16]])^2),sqrt((x$X[t+3]-x$X[root16[12,(t-startcnumber16)/16]])^2+(x$Y[t+3]-x$Y[root16[12,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root16[12,(t-startcnumber16)/16]])^2),sqrt((x$X[t+4]-x$X[root16[12,(t-startcnumber16)/16]])^2+(x$Y[t+4]-x$Y[root16[12,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root16[12,(t-startcnumber16)/16]])^2),sqrt((x$X[t+5]-x$X[root16[12,(t-startcnumber16)/16]])^2+(x$Y[t+5]-x$Y[root16[12,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root16[12,(t-startcnumber16)/16]])^2),sqrt((x$X[t+6]-x$X[root16[12,(t-startcnumber16)/16]])^2+(x$Y[t+6]-x$Y[root16[12,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root16[12,(t-startcnumber16)/16]])^2),sqrt((x$X[t+7]-x$X[root16[12,(t-startcnumber16)/16]])^2+(x$Y[t+7]-x$Y[root16[12,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root16[12,(t-startcnumber16)/16]])^2),sqrt((x$X[t+8]-x$X[root16[12,(t-startcnumber16)/16]])^2+(x$Y[t+8]-x$Y[root16[12,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+8]-hosei*x$Z[root16[12,(t-startcnumber16)/16]])^2),sqrt((x$X[t+9]-x$X[root16[12,(t-startcnumber16)/16]])^2+(x$Y[t+9]-x$Y[root16[12,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+9]-hosei*x$Z[root16[12,(t-startcnumber16)/16]])^2),sqrt((x$X[t+10]-x$X[root16[12,(t-startcnumber16)/16]])^2+(x$Y[t+10]-x$Y[root16[12,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+10]-hosei*x$Z[root16[12,(t-startcnumber16)/16]])^2),sqrt((x$X[t+11]-x$X[root16[12,(t-startcnumber16)/16]])^2+(x$Y[t+11]-x$Y[root16[12,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+11]-hosei*x$Z[root16[12,(t-startcnumber16)/16]])^2),sqrt((x$X[t+12]-x$X[root16[12,(t-startcnumber16)/16]])^2+(x$Y[t+12]-x$Y[root16[12,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+12]-hosei*x$Z[root16[12,(t-startcnumber16)/16]])^2),sqrt((x$X[t+13]-x$X[root16[12,(t-startcnumber16)/16]])^2+(x$Y[t+13]-x$Y[root16[12,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+13]-hosei*x$Z[root16[12,(t-startcnumber16)/16]])^2),sqrt((x$X[t+14]-x$X[root16[12,(t-startcnumber16)/16]])^2+(x$Y[t+14]-x$Y[root16[12,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+14]-hosei*x$Z[root16[12,(t-startcnumber16)/16]])^2),sqrt((x$X[t+15]-x$X[root16[12,(t-startcnumber16)/16]])^2+(x$Y[t+15]-x$Y[root16[12,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+15]-hosei*x$Z[root16[12,(t-startcnumber16)/16]])^2))
+
+tmp1613<-c(sqrt((x$X[t]-x$X[root16[13,(t-startcnumber16)/16]])^2+(x$Y[t]-x$Y[root16[13,(t-startcnumber16)/16]])^2+(hosei*x$Z[t]-hosei*x$Z[root16[13,(t-startcnumber16)/16]])^2),sqrt((x$X[t+1]-x$X[root16[13,(t-startcnumber16)/16]])^2+(x$Y[t+1]-x$Y[root16[13,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root16[13,(t-startcnumber16)/16]])^2),sqrt((x$X[t+2]-x$X[root16[13,(t-startcnumber16)/16]])^2+(x$Y[t+2]-x$Y[root16[13,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root16[13,(t-startcnumber16)/16]])^2),sqrt((x$X[t+3]-x$X[root16[13,(t-startcnumber16)/16]])^2+(x$Y[t+3]-x$Y[root16[13,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root16[13,(t-startcnumber16)/16]])^2),sqrt((x$X[t+4]-x$X[root16[13,(t-startcnumber16)/16]])^2+(x$Y[t+4]-x$Y[root16[13,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root16[13,(t-startcnumber16)/16]])^2),sqrt((x$X[t+5]-x$X[root16[13,(t-startcnumber16)/16]])^2+(x$Y[t+5]-x$Y[root16[13,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root16[13,(t-startcnumber16)/16]])^2),sqrt((x$X[t+6]-x$X[root16[13,(t-startcnumber16)/16]])^2+(x$Y[t+6]-x$Y[root16[13,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root16[13,(t-startcnumber16)/16]])^2),sqrt((x$X[t+7]-x$X[root16[13,(t-startcnumber16)/16]])^2+(x$Y[t+7]-x$Y[root16[13,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root16[13,(t-startcnumber16)/16]])^2),sqrt((x$X[t+8]-x$X[root16[13,(t-startcnumber16)/16]])^2+(x$Y[t+8]-x$Y[root16[13,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+8]-hosei*x$Z[root16[13,(t-startcnumber16)/16]])^2),sqrt((x$X[t+9]-x$X[root16[13,(t-startcnumber16)/16]])^2+(x$Y[t+9]-x$Y[root16[13,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+9]-hosei*x$Z[root16[13,(t-startcnumber16)/16]])^2),sqrt((x$X[t+10]-x$X[root16[13,(t-startcnumber16)/16]])^2+(x$Y[t+10]-x$Y[root16[13,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+10]-hosei*x$Z[root16[13,(t-startcnumber16)/16]])^2),sqrt((x$X[t+11]-x$X[root16[13,(t-startcnumber16)/16]])^2+(x$Y[t+11]-x$Y[root16[13,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+11]-hosei*x$Z[root16[13,(t-startcnumber16)/16]])^2),sqrt((x$X[t+12]-x$X[root16[13,(t-startcnumber16)/16]])^2+(x$Y[t+12]-x$Y[root16[13,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+12]-hosei*x$Z[root16[13,(t-startcnumber16)/16]])^2),sqrt((x$X[t+13]-x$X[root16[13,(t-startcnumber16)/16]])^2+(x$Y[t+13]-x$Y[root16[13,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+13]-hosei*x$Z[root16[13,(t-startcnumber16)/16]])^2),sqrt((x$X[t+14]-x$X[root16[13,(t-startcnumber16)/16]])^2+(x$Y[t+14]-x$Y[root16[13,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+14]-hosei*x$Z[root16[13,(t-startcnumber16)/16]])^2),sqrt((x$X[t+15]-x$X[root16[13,(t-startcnumber16)/16]])^2+(x$Y[t+15]-x$Y[root16[13,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+15]-hosei*x$Z[root16[13,(t-startcnumber16)/16]])^2))
+
+tmp1614<-c(sqrt((x$X[t]-x$X[root16[14,(t-startcnumber16)/16]])^2+(x$Y[t]-x$Y[root16[14,(t-startcnumber16)/16]])^2+(hosei*x$Z[t]-hosei*x$Z[root16[14,(t-startcnumber16)/16]])^2),sqrt((x$X[t+1]-x$X[root16[14,(t-startcnumber16)/16]])^2+(x$Y[t+1]-x$Y[root16[14,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root16[14,(t-startcnumber16)/16]])^2),sqrt((x$X[t+2]-x$X[root16[14,(t-startcnumber16)/16]])^2+(x$Y[t+2]-x$Y[root16[14,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root16[14,(t-startcnumber16)/16]])^2),sqrt((x$X[t+3]-x$X[root16[14,(t-startcnumber16)/16]])^2+(x$Y[t+3]-x$Y[root16[14,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root16[14,(t-startcnumber16)/16]])^2),sqrt((x$X[t+4]-x$X[root16[14,(t-startcnumber16)/16]])^2+(x$Y[t+4]-x$Y[root16[14,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root16[14,(t-startcnumber16)/16]])^2),sqrt((x$X[t+5]-x$X[root16[14,(t-startcnumber16)/16]])^2+(x$Y[t+5]-x$Y[root16[14,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root16[14,(t-startcnumber16)/16]])^2),sqrt((x$X[t+6]-x$X[root16[14,(t-startcnumber16)/16]])^2+(x$Y[t+6]-x$Y[root16[14,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root16[14,(t-startcnumber16)/16]])^2),sqrt((x$X[t+7]-x$X[root16[14,(t-startcnumber16)/16]])^2+(x$Y[t+7]-x$Y[root16[14,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root16[14,(t-startcnumber16)/16]])^2),sqrt((x$X[t+8]-x$X[root16[14,(t-startcnumber16)/16]])^2+(x$Y[t+8]-x$Y[root16[14,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+8]-hosei*x$Z[root16[14,(t-startcnumber16)/16]])^2),sqrt((x$X[t+9]-x$X[root16[14,(t-startcnumber16)/16]])^2+(x$Y[t+9]-x$Y[root16[14,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+9]-hosei*x$Z[root16[14,(t-startcnumber16)/16]])^2),sqrt((x$X[t+10]-x$X[root16[14,(t-startcnumber16)/16]])^2+(x$Y[t+10]-x$Y[root16[14,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+10]-hosei*x$Z[root16[14,(t-startcnumber16)/16]])^2),sqrt((x$X[t+11]-x$X[root16[14,(t-startcnumber16)/16]])^2+(x$Y[t+11]-x$Y[root16[14,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+11]-hosei*x$Z[root16[14,(t-startcnumber16)/16]])^2),sqrt((x$X[t+12]-x$X[root16[14,(t-startcnumber16)/16]])^2+(x$Y[t+12]-x$Y[root16[14,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+12]-hosei*x$Z[root16[14,(t-startcnumber16)/16]])^2),sqrt((x$X[t+13]-x$X[root16[14,(t-startcnumber16)/16]])^2+(x$Y[t+13]-x$Y[root16[14,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+13]-hosei*x$Z[root16[14,(t-startcnumber16)/16]])^2),sqrt((x$X[t+14]-x$X[root16[14,(t-startcnumber16)/16]])^2+(x$Y[t+14]-x$Y[root16[14,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+14]-hosei*x$Z[root16[14,(t-startcnumber16)/16]])^2),sqrt((x$X[t+15]-x$X[root16[14,(t-startcnumber16)/16]])^2+(x$Y[t+15]-x$Y[root16[14,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+15]-hosei*x$Z[root16[14,(t-startcnumber16)/16]])^2))
+
+tmp1615<-c(sqrt((x$X[t]-x$X[root16[15,(t-startcnumber16)/16]])^2+(x$Y[t]-x$Y[root16[15,(t-startcnumber16)/16]])^2+(hosei*x$Z[t]-hosei*x$Z[root16[15,(t-startcnumber16)/16]])^2),sqrt((x$X[t+1]-x$X[root16[15,(t-startcnumber16)/16]])^2+(x$Y[t+1]-x$Y[root16[15,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root16[15,(t-startcnumber16)/16]])^2),sqrt((x$X[t+2]-x$X[root16[15,(t-startcnumber16)/16]])^2+(x$Y[t+2]-x$Y[root16[15,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root16[15,(t-startcnumber16)/16]])^2),sqrt((x$X[t+3]-x$X[root16[15,(t-startcnumber16)/16]])^2+(x$Y[t+3]-x$Y[root16[15,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root16[15,(t-startcnumber16)/16]])^2),sqrt((x$X[t+4]-x$X[root16[15,(t-startcnumber16)/16]])^2+(x$Y[t+4]-x$Y[root16[15,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root16[15,(t-startcnumber16)/16]])^2),sqrt((x$X[t+5]-x$X[root16[15,(t-startcnumber16)/16]])^2+(x$Y[t+5]-x$Y[root16[15,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root16[15,(t-startcnumber16)/16]])^2),sqrt((x$X[t+6]-x$X[root16[15,(t-startcnumber16)/16]])^2+(x$Y[t+6]-x$Y[root16[15,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root16[15,(t-startcnumber16)/16]])^2),sqrt((x$X[t+7]-x$X[root16[15,(t-startcnumber16)/16]])^2+(x$Y[t+7]-x$Y[root16[15,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root16[15,(t-startcnumber16)/16]])^2),sqrt((x$X[t+8]-x$X[root16[15,(t-startcnumber16)/16]])^2+(x$Y[t+8]-x$Y[root16[15,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+8]-hosei*x$Z[root16[15,(t-startcnumber16)/16]])^2),sqrt((x$X[t+9]-x$X[root16[15,(t-startcnumber16)/16]])^2+(x$Y[t+9]-x$Y[root16[15,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+9]-hosei*x$Z[root16[15,(t-startcnumber16)/16]])^2),sqrt((x$X[t+10]-x$X[root16[15,(t-startcnumber16)/16]])^2+(x$Y[t+10]-x$Y[root16[15,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+10]-hosei*x$Z[root16[15,(t-startcnumber16)/16]])^2),sqrt((x$X[t+11]-x$X[root16[15,(t-startcnumber16)/16]])^2+(x$Y[t+11]-x$Y[root16[15,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+11]-hosei*x$Z[root16[15,(t-startcnumber16)/16]])^2),sqrt((x$X[t+12]-x$X[root16[15,(t-startcnumber16)/16]])^2+(x$Y[t+12]-x$Y[root16[15,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+12]-hosei*x$Z[root16[15,(t-startcnumber16)/16]])^2),sqrt((x$X[t+13]-x$X[root16[15,(t-startcnumber16)/16]])^2+(x$Y[t+13]-x$Y[root16[15,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+13]-hosei*x$Z[root16[15,(t-startcnumber16)/16]])^2),sqrt((x$X[t+14]-x$X[root16[15,(t-startcnumber16)/16]])^2+(x$Y[t+14]-x$Y[root16[15,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+14]-hosei*x$Z[root16[15,(t-startcnumber16)/16]])^2),sqrt((x$X[t+15]-x$X[root16[15,(t-startcnumber16)/16]])^2+(x$Y[t+15]-x$Y[root16[15,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+15]-hosei*x$Z[root16[15,(t-startcnumber16)/16]])^2))
+
+tmp1616<-c(sqrt((x$X[t]-x$X[root16[16,(t-startcnumber16)/16]])^2+(x$Y[t]-x$Y[root16[16,(t-startcnumber16)/16]])^2+(hosei*x$Z[t]-hosei*x$Z[root16[4,(t-startcnumber16)/16]])^2),sqrt((x$X[t+1]-x$X[root16[16,(t-startcnumber16)/16]])^2+(x$Y[t+1]-x$Y[root16[16,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+1]-hosei*x$Z[root16[16,(t-startcnumber16)/16]])^2),sqrt((x$X[t+2]-x$X[root16[16,(t-startcnumber16)/16]])^2+(x$Y[t+2]-x$Y[root16[16,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+2]-hosei*x$Z[root16[16,(t-startcnumber16)/16]])^2),sqrt((x$X[t+3]-x$X[root16[16,(t-startcnumber16)/16]])^2+(x$Y[t+3]-x$Y[root16[16,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+3]-hosei*x$Z[root16[16,(t-startcnumber16)/16]])^2),sqrt((x$X[t+4]-x$X[root16[16,(t-startcnumber16)/16]])^2+(x$Y[t+4]-x$Y[root16[16,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+4]-hosei*x$Z[root16[16,(t-startcnumber16)/16]])^2),sqrt((x$X[t+5]-x$X[root16[16,(t-startcnumber16)/16]])^2+(x$Y[t+5]-x$Y[root16[16,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+5]-hosei*x$Z[root16[16,(t-startcnumber16)/16]])^2),sqrt((x$X[t+6]-x$X[root16[16,(t-startcnumber16)/16]])^2+(x$Y[t+6]-x$Y[root16[16,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+6]-hosei*x$Z[root16[16,(t-startcnumber16)/16]])^2),sqrt((x$X[t+7]-x$X[root16[16,(t-startcnumber16)/16]])^2+(x$Y[t+7]-x$Y[root16[16,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+7]-hosei*x$Z[root16[16,(t-startcnumber16)/16]])^2),sqrt((x$X[t+8]-x$X[root16[16,(t-startcnumber16)/16]])^2+(x$Y[t+8]-x$Y[root16[16,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+8]-hosei*x$Z[root16[16,(t-startcnumber16)/16]])^2),sqrt((x$X[t+9]-x$X[root16[16,(t-startcnumber16)/16]])^2+(x$Y[t+9]-x$Y[root16[16,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+9]-hosei*x$Z[root16[16,(t-startcnumber16)/16]])^2),sqrt((x$X[t+10]-x$X[root16[16,(t-startcnumber16)/16]])^2+(x$Y[t+10]-x$Y[root16[16,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+10]-hosei*x$Z[root16[16,(t-startcnumber16)/16]])^2),sqrt((x$X[t+11]-x$X[root16[16,(t-startcnumber16)/16]])^2+(x$Y[t+11]-x$Y[root16[16,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+11]-hosei*x$Z[root16[16,(t-startcnumber16)/16]])^2),sqrt((x$X[t+12]-x$X[root16[16,(t-startcnumber16)/16]])^2+(x$Y[t+12]-x$Y[root16[16,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+12]-hosei*x$Z[root16[16,(t-startcnumber16)/16]])^2),sqrt((x$X[t+13]-x$X[root16[16,(t-startcnumber16)/16]])^2+(x$Y[t+13]-x$Y[root16[16,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+13]-hosei*x$Z[root16[16,(t-startcnumber16)/16]])^2),sqrt((x$X[t+14]-x$X[root16[16,(t-startcnumber16)/16]])^2+(x$Y[t+14]-x$Y[root16[16,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+14]-hosei*x$Z[root16[16,(t-startcnumber16)/16]])^2),sqrt((x$X[t+15]-x$X[root16[16,(t-startcnumber16)/16]])^2+(x$Y[t+15]-x$Y[root16[16,(t-startcnumber16)/16]])^2+(hosei*x$Z[t+15]-hosei*x$Z[root16[16,(t-startcnumber16)/16]])^2))
+
+
+numsixteen<-(t-startcnumber16)/16+1  
+root16[1,numsixteen]<-(t+which.min(tmp161)-1)
+root16[2,numsixteen]<-(t+which.min(tmp162)-1)
+root16[3,numsixteen]<-(t+which.min(tmp163)-1)
+root16[4,numsixteen]<-(t+which.min(tmp164)-1)
+root16[5,numsixteen]<-(t+which.min(tmp165)-1)
+root16[6,numsixteen]<-(t+which.min(tmp166)-1)
+root16[7,numsixteen]<-(t+which.min(tmp167)-1)
+root16[8,numsixteen]<-(t+which.min(tmp168)-1)
+root16[9,numsixteen]<-(t+which.min(tmp169)-1)
+root16[10,numsixteen]<-(t+which.min(tmp1610)-1)
+root16[11,numsixteen]<-(t+which.min(tmp1611)-1)
+root16[12,numsixteen]<-(t+which.min(tmp1612)-1)
+root16[13,numsixteen]<-(t+which.min(tmp1613)-1)
+root16[14,numsixteen]<-(t+which.min(tmp1614)-1)
+root16[15,numsixteen]<-(t+which.min(tmp1615)-1)
+root16[16,numsixteen]<-(t+which.min(tmp1616)-1)
+
+rmsdcell16[1,(t-startcnumber16)/16]<-min(tmp161)
+rmsdcell16[2,(t-startcnumber16)/16]<-min(tmp162)
+rmsdcell16[3,(t-startcnumber16)/16]<-min(tmp163)
+rmsdcell16[4,(t-startcnumber16)/16]<-min(tmp164)
+rmsdcell16[5,(t-startcnumber16)/16]<-min(tmp165)
+rmsdcell16[6,(t-startcnumber16)/16]<-min(tmp166)
+rmsdcell16[7,(t-startcnumber16)/16]<-min(tmp167)
+rmsdcell16[8,(t-startcnumber16)/16]<-min(tmp168)
+rmsdcell16[9,(t-startcnumber16)/16]<-min(tmp169)
+rmsdcell16[10,(t-startcnumber16)/16]<-min(tmp1610)
+rmsdcell16[11,(t-startcnumber16)/16]<-min(tmp1611)
+rmsdcell16[12,(t-startcnumber16)/16]<-min(tmp1612)
+rmsdcell16[13,(t-startcnumber16)/16]<-min(tmp1613)
+rmsdcell16[14,(t-startcnumber16)/16]<-min(tmp1614)
+rmsdcell16[15,(t-startcnumber16)/16]<-min(tmp1615)
+rmsdcell16[16,(t-startcnumber16)/16]<-min(tmp1616)　
+
+
+
+
+}
+
+}  
+
+
+rmsdcell16[17,]<-rmsdcell16[1,]+rmsdcell16[2,]+rmsdcell16[3,]+rmsdcell16[4,]+rmsdcell16[5,]+rmsdcell16[6,]+rmsdcell16[7,]+rmsdcell16[8,]+rmsdcell16[9,]+rmsdcell16[10,]+rmsdcell16[11,]+rmsdcell16[12,]+rmsdcell16[13,]+rmsdcell16[14,]+rmsdcell16[15,]+rmsdcell16[16,]
+
+
+
+
+
+
+
+
+plot(rmsdcell16[1,],type="b",col="blue1",cex=2,lwd=2,lty=1,axes=F,ann=T, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell16[2,],type="b",col="red1",cex=2,pch=15,lwd=2,lty=1,axes=F,ann=T, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell16[3,],type="b",col="green1",cex=2,pch=16,lwd=3,lty=1,axes=F,ann=T, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell16[4,],type="b",col="gray1",cex=2,pch=17,lwd=4,lty=1, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell16[5,],type="b",col="yellow1",cex=2,lwd=2,lty=1,axes=F,ann=T, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell16[6,],type="b",col="cyan1",cex=2,pch=15,lwd=2,lty=1,axes=F,ann=T, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell16[7,],type="b",col="orange1",cex=2,pch=16,lwd=3,lty=1,axes=F,ann=T, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell16[8,],type="b",col="coral1",cex=2,pch=17,lwd=4,lty=1, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell16[9,],type="b",col="blue4",cex=2,lwd=2,lty=1,axes=F,ann=T, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell16[10,],type="b",col="red4",cex=2,pch=15,lwd=2,lty=1,axes=F,ann=T, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell16[11,],type="b",col="green4",cex=2,pch=16,lwd=3,lty=1,axes=F,ann=T, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell16[12,],type="b",col="gray4",cex=2,pch=17,lwd=4,lty=1, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell16[13,],type="b",col="yellow4",cex=2,lwd=2,lty=1,axes=F,ann=T, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell16[14,],type="b",col="cyan4",cex=2,pch=15,lwd=2,lty=1,axes=F,ann=T, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell16[15,],type="b",col="orange4",cex=2,pch=16,lwd=3,lty=1,axes=F,ann=T, xlim=c(0,40), ylim=c(0,10))
+par(new=T)
+plot(rmsdcell16[16,],type="b",col="coral4",cex=2,pch=17,lwd=4,lty=1, xlim=c(0,40), ylim=c(0,10))
+
+#plot(rmsdcell2[3,],type="b",col="red",cex=2,pch=15,lwd=2,lty=1)
+#plot(rmsdcell4[5,],type="b",col="blue",cex=2,pch=15,lwd=2,lty=1)
+#plot(rmsdcell8[9,],type="b",col="yellow",cex=2,pch=15,lwd=2,lty=1)
+#plot(rmsdcell16[17,],type="b",col="orange4",cex=2,pch=15,lwd=2,lty=1)
+
+
+
+write.csv(rmsdcell2[3,], "rmsdcell2.csv", quote=FALSE, row.names=FALSE)
+write.csv(rmsdcell4[5,], "rmsdcell4.csv", quote=FALSE, row.names=FALSE)
+write.csv(rmsdcell8[9,], "rmsdcell8.csv", quote=FALSE, row.names=FALSE)
+write.csv(rmsdcell16[17,], "rmsdcell16.csv", quote=FALSE, row.names=FALSE)
+
+
+      

@@ -1,0 +1,335 @@
+library(xlsx)
+filename = "abort_4th_F11_E4.xls"  #filename
+hosei<-2.5
+
+#matome<-matrix(nrow=120,ncol=1)
+
+x = read.xlsx(filename,sheetIndex=1)
+
+
+tmax<-max(x$Frame) 
+time <- array(1:tmax-1)
+countnuc <- array(1:tmax-1)
+t <- 1                     
+ for (t in 1:tmax-1) {              
+   t <- t + 1                  
+time[t]<-t
+countnuc[t]<-sum(x$Frame==t)
+ }         
+
+
+
+ t1<-1
+ for (t1 in 3:tmax-1) {
+t1<t1+1
+tmpFrame1<-countnuc[t1]
+tmpFrame2<-countnuc[t1+1]
+if((tmpFrame1==1)&&(tmpFrame2==2)){starttime2<-t1+1}　
+if((tmpFrame1==2)&&(tmpFrame2>2)){endtime2<-t1}　　　
+}   
+
+celltime2<-endtime2-starttime2
+celltime2to4<-sum(countnuc==3)
+celltime4<-sum(countnuc==4)
+celltime4to8<-sum(countnuc==5)+sum(countnuc==6)+sum(countnuc==7)
+celltime8<-sum(countnuc==8)
+
+celltime8to16<-sum(countnuc==9)+sum(countnuc==10)+sum(countnuc==11)+sum(countnuc==12)+sum(countnuc==13)+sum(countnuc==14)+sum(countnuc==15)
+celltime16<-sum(countnuc==16)
+
+ t2<-1
+ for (t2 in 3:tmax-1) {
+t2<t2+1
+tmpFrame1<-countnuc[t2]
+tmpFrame2<-countnuc[t2+1]
+if((tmpFrame1!=4)&&(tmpFrame2==4)){starttime4<-t2+1}
+if((tmpFrame1==4)&&(tmpFrame2>4)){endtime4<-t2}
+}   
+
+ t2<-1
+ for (t2 in 3:tmax-1) {
+t2<t2+1
+tmpFrame1<-countnuc[t2]
+tmpFrame2<-countnuc[t2+1]
+if((tmpFrame1!=8)&&(tmpFrame2==8)){starttime8<-t2+1}
+if((tmpFrame1==8)&&(tmpFrame2>8)){endtime8<-t2}
+}   
+
+ t2<-1
+ for (t2 in 3:tmax-1) {
+t2<t2+1
+tmpFrame1<-countnuc[t2]
+tmpFrame2<-countnuc[t2+1]
+if((tmpFrame1!=16)&&(tmpFrame2==16)){starttime16<-t2+1}
+if((tmpFrame1==16)&&(tmpFrame2>16)){endtime16<-t2}
+}   
+
+cnumbermax<-length(x$Frame)
+t<-1
+ for (t in 1:cnumbermax-1) {              
+   t <- t + 1                  
+if((x$Frame[t]==starttime2)){
+startcnumber2<-t
+break}
+ }     
+
+t<-1
+ for (t in 1:cnumbermax-1) {             
+   t <- t + 1                  
+if((x$Frame[t]==endtime2)){
+endcnumber2<-t}
+ }     
+
+
+t<-1
+ for (t in 1:cnumbermax-1) {             
+   t <- t + 1                  
+if((x$Frame[t]==starttime4)){
+startcnumber4<-t
+break}
+ }     
+
+t<-1
+ for (t in 1:cnumbermax-1) {             
+   t <- t + 1                  
+if((x$Frame[t]==endtime4)){
+endcnumber4<-t}
+ }  
+
+
+t<-1
+ for (t in 1:cnumbermax-1) {             
+   t <- t + 1                  
+if((x$Frame[t]==starttime8)){
+startcnumber8<-t
+break}
+ }     
+
+t<-1
+ for (t in 1:cnumbermax-1) {              
+   t <- t + 1                  
+if((x$Frame[t]==endtime8)){
+endcnumber8<-t}
+ }        
+
+t<-1
+ for (t in 1:cnumbermax-1) {             
+   t <- t + 1                  
+if((x$Frame[t]==starttime16)){
+startcnumber16<-t
+break}
+ }     
+
+t<-1
+ for (t in 1:cnumbermax-1) {             
+   t <- t + 1                  
+if((x$Frame[t]==endtime16)){
+endcnumber16<-t}
+ }        
+
+
+
+rmsdtetcell16<-matrix(nrow=16,ncol=celltime16)
+root16<-matrix(nrow=16,ncol=celltime16)
+root16[1,1]<-startcnumber16
+root16[2,1]<-startcnumber16+1
+root16[3,1]<-startcnumber16+2
+root16[4,1]<-startcnumber16+3
+root16[5,1]<-startcnumber16+4
+root16[6,1]<-startcnumber16+5
+root16[7,1]<-startcnumber16+6
+root16[8,1]<-startcnumber16+7
+root16[9,1]<-startcnumber16+8
+root16[10,1]<-startcnumber16+9
+root16[11,1]<-startcnumber16+10
+root16[12,1]<-startcnumber16+11
+root16[13,1]<-startcnumber16+12
+root16[14,1]<-startcnumber16+13
+root16[15,1]<-startcnumber16+14
+root16[16,1]<-startcnumber16+15
+
+t<-1
+timeCVsixt<-matrix(nrow=1,ncol=celltime16)
+
+ for (t in (startcnumber16-1):(endcnumber16)) {             
+   t <- t + 1                  
+
+
+if((t-startcnumber16)%%16==0){
+
+AB<-sqrt((x$X[t+1]-x$X[t])^2+(x$Y[t+1]-x$Y[t])^2+(hosei*x$Z[t+1]-hosei*x$Z[t])^2)
+AC<-sqrt((x$X[t+2]-x$X[t])^2+(x$Y[t+2]-x$Y[t])^2+(hosei*x$Z[t+2]-hosei*x$Z[t])^2)
+AD<-sqrt((x$X[t+3]-x$X[t])^2+(x$Y[t+3]-x$Y[t])^2+(hosei*x$Z[t+3]-hosei*x$Z[t])^2)
+AE<-sqrt((x$X[t+4]-x$X[t])^2+(x$Y[t+4]-x$Y[t])^2+(hosei*x$Z[t+4]-hosei*x$Z[t])^2)
+AF<-sqrt((x$X[t+5]-x$X[t])^2+(x$Y[t+5]-x$Y[t])^2+(hosei*x$Z[t+5]-hosei*x$Z[t])^2)
+AG<-sqrt((x$X[t+6]-x$X[t])^2+(x$Y[t+6]-x$Y[t])^2+(hosei*x$Z[t+6]-hosei*x$Z[t])^2)
+AH<-sqrt((x$X[t+7]-x$X[t])^2+(x$Y[t+7]-x$Y[t])^2+(hosei*x$Z[t+7]-hosei*x$Z[t])^2)
+AI<-sqrt((x$X[t+8]-x$X[t])^2+(x$Y[t+8]-x$Y[t])^2+(hosei*x$Z[t+8]-hosei*x$Z[t])^2)
+AJ<-sqrt((x$X[t+9]-x$X[t])^2+(x$Y[t+9]-x$Y[t])^2+(hosei*x$Z[t+9]-hosei*x$Z[t])^2)
+AK<-sqrt((x$X[t+10]-x$X[t])^2+(x$Y[t+10]-x$Y[t])^2+(hosei*x$Z[t+10]-hosei*x$Z[t])^2)
+AL<-sqrt((x$X[t+11]-x$X[t])^2+(x$Y[t+11]-x$Y[t])^2+(hosei*x$Z[t+11]-hosei*x$Z[t])^2)
+AM<-sqrt((x$X[t+12]-x$X[t])^2+(x$Y[t+12]-x$Y[t])^2+(hosei*x$Z[t+12]-hosei*x$Z[t])^2)
+AN<-sqrt((x$X[t+13]-x$X[t])^2+(x$Y[t+13]-x$Y[t])^2+(hosei*x$Z[t+13]-hosei*x$Z[t])^2)
+AO<-sqrt((x$X[t+14]-x$X[t])^2+(x$Y[t+14]-x$Y[t])^2+(hosei*x$Z[t+14]-hosei*x$Z[t])^2)
+AP<-sqrt((x$X[t+15]-x$X[t])^2+(x$Y[t+15]-x$Y[t])^2+(hosei*x$Z[t+15]-hosei*x$Z[t])^2)
+
+BC<-sqrt((x$X[t+2]-x$X[t+1])^2+(x$Y[t+2]-x$Y[t+1])^2+(hosei*x$Z[t+2]-hosei*x$Z[t+1])^2)
+BD<-sqrt((x$X[t+3]-x$X[t+1])^2+(x$Y[t+3]-x$Y[t+1])^2+(hosei*x$Z[t+3]-hosei*x$Z[t+1])^2)
+BE<-sqrt((x$X[t+4]-x$X[t+1])^2+(x$Y[t+4]-x$Y[t+1])^2+(hosei*x$Z[t+4]-hosei*x$Z[t+1])^2)
+BF<-sqrt((x$X[t+5]-x$X[t+1])^2+(x$Y[t+5]-x$Y[t+1])^2+(hosei*x$Z[t+5]-hosei*x$Z[t+1])^2)
+BG<-sqrt((x$X[t+6]-x$X[t+1])^2+(x$Y[t+6]-x$Y[t+1])^2+(hosei*x$Z[t+6]-hosei*x$Z[t+1])^2)
+BH<-sqrt((x$X[t+7]-x$X[t+1])^2+(x$Y[t+7]-x$Y[t+1])^2+(hosei*x$Z[t+7]-hosei*x$Z[t+1])^2)
+BI<-sqrt((x$X[t+8]-x$X[t+1])^2+(x$Y[t+8]-x$Y[t+1])^2+(hosei*x$Z[t+8]-hosei*x$Z[t+1])^2)
+BJ<-sqrt((x$X[t+9]-x$X[t+1])^2+(x$Y[t+9]-x$Y[t+1])^2+(hosei*x$Z[t+9]-hosei*x$Z[t+1])^2)
+BK<-sqrt((x$X[t+10]-x$X[t+1])^2+(x$Y[t+10]-x$Y[t+1])^2+(hosei*x$Z[t+10]-hosei*x$Z[t+1])^2)
+BL<-sqrt((x$X[t+11]-x$X[t+1])^2+(x$Y[t+11]-x$Y[t+1])^2+(hosei*x$Z[t+11]-hosei*x$Z[t+1])^2)
+BM<-sqrt((x$X[t+12]-x$X[t+1])^2+(x$Y[t+12]-x$Y[t+1])^2+(hosei*x$Z[t+12]-hosei*x$Z[t+1])^2)
+BN<-sqrt((x$X[t+13]-x$X[t+1])^2+(x$Y[t+13]-x$Y[t+1])^2+(hosei*x$Z[t+13]-hosei*x$Z[t+1])^2)
+BO<-sqrt((x$X[t+14]-x$X[t+1])^2+(x$Y[t+14]-x$Y[t+1])^2+(hosei*x$Z[t+14]-hosei*x$Z[t+1])^2)
+BP<-sqrt((x$X[t+15]-x$X[t+1])^2+(x$Y[t+15]-x$Y[t+1])^2+(hosei*x$Z[t+15]-hosei*x$Z[t+1])^2)
+
+CD<-sqrt((x$X[t+3]-x$X[t+2])^2+(x$Y[t+3]-x$Y[t+2])^2+(hosei*x$Z[t+3]-hosei*x$Z[t+2])^2)
+CE<-sqrt((x$X[t+4]-x$X[t+2])^2+(x$Y[t+4]-x$Y[t+2])^2+(hosei*x$Z[t+4]-hosei*x$Z[t+2])^2)
+CF<-sqrt((x$X[t+5]-x$X[t+2])^2+(x$Y[t+5]-x$Y[t+2])^2+(hosei*x$Z[t+5]-hosei*x$Z[t+2])^2)
+CG<-sqrt((x$X[t+6]-x$X[t+2])^2+(x$Y[t+6]-x$Y[t+2])^2+(hosei*x$Z[t+6]-hosei*x$Z[t+2])^2)
+CH<-sqrt((x$X[t+7]-x$X[t+2])^2+(x$Y[t+7]-x$Y[t+2])^2+(hosei*x$Z[t+7]-hosei*x$Z[t+2])^2)
+CI<-sqrt((x$X[t+8]-x$X[t+2])^2+(x$Y[t+8]-x$Y[t+2])^2+(hosei*x$Z[t+8]-hosei*x$Z[t+2])^2)
+CJ<-sqrt((x$X[t+9]-x$X[t+2])^2+(x$Y[t+9]-x$Y[t+2])^2+(hosei*x$Z[t+9]-hosei*x$Z[t+2])^2)
+CK<-sqrt((x$X[t+10]-x$X[t+2])^2+(x$Y[t+10]-x$Y[t+2])^2+(hosei*x$Z[t+10]-hosei*x$Z[t+2])^2)
+CL<-sqrt((x$X[t+11]-x$X[t+2])^2+(x$Y[t+11]-x$Y[t+2])^2+(hosei*x$Z[t+11]-hosei*x$Z[t+2])^2)
+CM<-sqrt((x$X[t+12]-x$X[t+2])^2+(x$Y[t+12]-x$Y[t+2])^2+(hosei*x$Z[t+12]-hosei*x$Z[t+2])^2)
+CN<-sqrt((x$X[t+13]-x$X[t+2])^2+(x$Y[t+13]-x$Y[t+2])^2+(hosei*x$Z[t+13]-hosei*x$Z[t+2])^2)
+CO<-sqrt((x$X[t+14]-x$X[t+2])^2+(x$Y[t+14]-x$Y[t+2])^2+(hosei*x$Z[t+14]-hosei*x$Z[t+2])^2)
+CP<-sqrt((x$X[t+15]-x$X[t+2])^2+(x$Y[t+15]-x$Y[t+2])^2+(hosei*x$Z[t+15]-hosei*x$Z[t+2])^2)
+
+
+DE<-sqrt((x$X[t+4]-x$X[t+3])^2+(x$Y[t+4]-x$Y[t+3])^2+(hosei*x$Z[t+4]-hosei*x$Z[t+3])^2)
+DF<-sqrt((x$X[t+5]-x$X[t+3])^2+(x$Y[t+5]-x$Y[t+3])^2+(hosei*x$Z[t+5]-hosei*x$Z[t+3])^2)
+DG<-sqrt((x$X[t+6]-x$X[t+3])^2+(x$Y[t+6]-x$Y[t+3])^2+(hosei*x$Z[t+6]-hosei*x$Z[t+3])^2)
+DH<-sqrt((x$X[t+7]-x$X[t+3])^2+(x$Y[t+7]-x$Y[t+3])^2+(hosei*x$Z[t+7]-hosei*x$Z[t+3])^2)
+DI<-sqrt((x$X[t+8]-x$X[t+3])^2+(x$Y[t+8]-x$Y[t+3])^2+(hosei*x$Z[t+8]-hosei*x$Z[t+3])^2)
+DJ<-sqrt((x$X[t+9]-x$X[t+3])^2+(x$Y[t+9]-x$Y[t+3])^2+(hosei*x$Z[t+9]-hosei*x$Z[t+3])^2)
+DK<-sqrt((x$X[t+10]-x$X[t+3])^2+(x$Y[t+10]-x$Y[t+3])^2+(hosei*x$Z[t+10]-hosei*x$Z[t+3])^2)
+DL<-sqrt((x$X[t+11]-x$X[t+3])^2+(x$Y[t+11]-x$Y[t+3])^2+(hosei*x$Z[t+11]-hosei*x$Z[t+3])^2)
+DM<-sqrt((x$X[t+12]-x$X[t+3])^2+(x$Y[t+12]-x$Y[t+3])^2+(hosei*x$Z[t+12]-hosei*x$Z[t+3])^2)
+DN<-sqrt((x$X[t+13]-x$X[t+3])^2+(x$Y[t+13]-x$Y[t+3])^2+(hosei*x$Z[t+13]-hosei*x$Z[t+3])^2)
+DO<-sqrt((x$X[t+14]-x$X[t+3])^2+(x$Y[t+14]-x$Y[t+3])^2+(hosei*x$Z[t+14]-hosei*x$Z[t+3])^2)
+DP<-sqrt((x$X[t+15]-x$X[t+3])^2+(x$Y[t+15]-x$Y[t+3])^2+(hosei*x$Z[t+15]-hosei*x$Z[t+3])^2)
+
+
+EF<-sqrt((x$X[t+5]-x$X[t+4])^2+(x$Y[t+5]-x$Y[t+4])^2+(hosei*x$Z[t+5]-hosei*x$Z[t+4])^2)
+EG<-sqrt((x$X[t+6]-x$X[t+4])^2+(x$Y[t+6]-x$Y[t+4])^2+(hosei*x$Z[t+6]-hosei*x$Z[t+4])^2)
+EH<-sqrt((x$X[t+7]-x$X[t+4])^2+(x$Y[t+7]-x$Y[t+4])^2+(hosei*x$Z[t+7]-hosei*x$Z[t+4])^2)
+EI<-sqrt((x$X[t+8]-x$X[t+4])^2+(x$Y[t+8]-x$Y[t+4])^2+(hosei*x$Z[t+8]-hosei*x$Z[t+4])^2)
+EJ<-sqrt((x$X[t+9]-x$X[t+4])^2+(x$Y[t+9]-x$Y[t+4])^2+(hosei*x$Z[t+9]-hosei*x$Z[t+4])^2)
+EK<-sqrt((x$X[t+10]-x$X[t+4])^2+(x$Y[t+10]-x$Y[t+4])^2+(hosei*x$Z[t+10]-hosei*x$Z[t+4])^2)
+EL<-sqrt((x$X[t+11]-x$X[t+4])^2+(x$Y[t+11]-x$Y[t+4])^2+(hosei*x$Z[t+11]-hosei*x$Z[t+4])^2)
+EM<-sqrt((x$X[t+12]-x$X[t+4])^2+(x$Y[t+12]-x$Y[t+4])^2+(hosei*x$Z[t+12]-hosei*x$Z[t+4])^2)
+EN<-sqrt((x$X[t+13]-x$X[t+4])^2+(x$Y[t+13]-x$Y[t+4])^2+(hosei*x$Z[t+13]-hosei*x$Z[t+4])^2)
+EO<-sqrt((x$X[t+14]-x$X[t+4])^2+(x$Y[t+14]-x$Y[t+4])^2+(hosei*x$Z[t+14]-hosei*x$Z[t+4])^2)
+EP<-sqrt((x$X[t+15]-x$X[t+4])^2+(x$Y[t+15]-x$Y[t+4])^2+(hosei*x$Z[t+15]-hosei*x$Z[t+4])^2)
+
+
+FG<-sqrt((x$X[t+6]-x$X[t+5])^2+(x$Y[t+6]-x$Y[t+5])^2+(hosei*x$Z[t+6]-hosei*x$Z[t+5])^2)
+FH<-sqrt((x$X[t+7]-x$X[t+5])^2+(x$Y[t+7]-x$Y[t+5])^2+(hosei*x$Z[t+7]-hosei*x$Z[t+5])^2)
+FI<-sqrt((x$X[t+8]-x$X[t+5])^2+(x$Y[t+8]-x$Y[t+5])^2+(hosei*x$Z[t+8]-hosei*x$Z[t+5])^2)
+FJ<-sqrt((x$X[t+9]-x$X[t+5])^2+(x$Y[t+9]-x$Y[t+5])^2+(hosei*x$Z[t+9]-hosei*x$Z[t+5])^2)
+FK<-sqrt((x$X[t+10]-x$X[t+5])^2+(x$Y[t+10]-x$Y[t+5])^2+(hosei*x$Z[t+10]-hosei*x$Z[t+5])^2)
+FL<-sqrt((x$X[t+11]-x$X[t+5])^2+(x$Y[t+11]-x$Y[t+5])^2+(hosei*x$Z[t+11]-hosei*x$Z[t+5])^2)
+FM<-sqrt((x$X[t+12]-x$X[t+5])^2+(x$Y[t+12]-x$Y[t+5])^2+(hosei*x$Z[t+12]-hosei*x$Z[t+5])^2)
+FN<-sqrt((x$X[t+13]-x$X[t+5])^2+(x$Y[t+13]-x$Y[t+5])^2+(hosei*x$Z[t+13]-hosei*x$Z[t+5])^2)
+FO<-sqrt((x$X[t+14]-x$X[t+5])^2+(x$Y[t+14]-x$Y[t+5])^2+(hosei*x$Z[t+14]-hosei*x$Z[t+5])^2)
+FP<-sqrt((x$X[t+15]-x$X[t+5])^2+(x$Y[t+15]-x$Y[t+5])^2+(hosei*x$Z[t+15]-hosei*x$Z[t+5])^2)
+
+GH<-sqrt((x$X[t+7]-x$X[t+6])^2+(x$Y[t+7]-x$Y[t+6])^2+(hosei*x$Z[t+7]-hosei*x$Z[t+6])^2)
+GI<-sqrt((x$X[t+8]-x$X[t+6])^2+(x$Y[t+8]-x$Y[t+6])^2+(hosei*x$Z[t+8]-hosei*x$Z[t+6])^2)
+GJ<-sqrt((x$X[t+9]-x$X[t+6])^2+(x$Y[t+9]-x$Y[t+6])^2+(hosei*x$Z[t+9]-hosei*x$Z[t+6])^2)
+GK<-sqrt((x$X[t+10]-x$X[t+6])^2+(x$Y[t+10]-x$Y[t+6])^2+(hosei*x$Z[t+10]-hosei*x$Z[t+6])^2)
+GL<-sqrt((x$X[t+11]-x$X[t+6])^2+(x$Y[t+11]-x$Y[t+6])^2+(hosei*x$Z[t+11]-hosei*x$Z[t+6])^2)
+GM<-sqrt((x$X[t+12]-x$X[t+6])^2+(x$Y[t+12]-x$Y[t+6])^2+(hosei*x$Z[t+12]-hosei*x$Z[t+6])^2)
+GN<-sqrt((x$X[t+13]-x$X[t+6])^2+(x$Y[t+13]-x$Y[t+6])^2+(hosei*x$Z[t+13]-hosei*x$Z[t+6])^2)
+GO<-sqrt((x$X[t+14]-x$X[t+6])^2+(x$Y[t+14]-x$Y[t+6])^2+(hosei*x$Z[t+14]-hosei*x$Z[t+6])^2)
+GP<-sqrt((x$X[t+15]-x$X[t+6])^2+(x$Y[t+15]-x$Y[t+6])^2+(hosei*x$Z[t+15]-hosei*x$Z[t+6])^2)
+
+HI<-sqrt((x$X[t+8]-x$X[t+7])^2+(x$Y[t+8]-x$Y[t+7])^2+(hosei*x$Z[t+8]-hosei*x$Z[t+7])^2)
+HJ<-sqrt((x$X[t+9]-x$X[t+7])^2+(x$Y[t+9]-x$Y[t+7])^2+(hosei*x$Z[t+9]-hosei*x$Z[t+7])^2)
+HK<-sqrt((x$X[t+10]-x$X[t+7])^2+(x$Y[t+10]-x$Y[t+7])^2+(hosei*x$Z[t+10]-hosei*x$Z[t+7])^2)
+HL<-sqrt((x$X[t+11]-x$X[t+7])^2+(x$Y[t+11]-x$Y[t+7])^2+(hosei*x$Z[t+11]-hosei*x$Z[t+7])^2)
+HM<-sqrt((x$X[t+12]-x$X[t+7])^2+(x$Y[t+12]-x$Y[t+7])^2+(hosei*x$Z[t+12]-hosei*x$Z[t+7])^2)
+HN<-sqrt((x$X[t+13]-x$X[t+7])^2+(x$Y[t+13]-x$Y[t+7])^2+(hosei*x$Z[t+13]-hosei*x$Z[t+7])^2)
+HO<-sqrt((x$X[t+14]-x$X[t+7])^2+(x$Y[t+14]-x$Y[t+7])^2+(hosei*x$Z[t+14]-hosei*x$Z[t+7])^2)
+HP<-sqrt((x$X[t+15]-x$X[t+7])^2+(x$Y[t+15]-x$Y[t+7])^2+(hosei*x$Z[t+15]-hosei*x$Z[t+7])^2)
+
+IJ<-sqrt((x$X[t+9]-x$X[t+8])^2+(x$Y[t+9]-x$Y[t+8])^2+(hosei*x$Z[t+9]-hosei*x$Z[t+8])^2)
+IK<-sqrt((x$X[t+10]-x$X[t+8])^2+(x$Y[t+10]-x$Y[t+8])^2+(hosei*x$Z[t+10]-hosei*x$Z[t+8])^2)
+IL<-sqrt((x$X[t+11]-x$X[t+8])^2+(x$Y[t+11]-x$Y[t+8])^2+(hosei*x$Z[t+11]-hosei*x$Z[t+8])^2)
+IM<-sqrt((x$X[t+12]-x$X[t+8])^2+(x$Y[t+12]-x$Y[t+8])^2+(hosei*x$Z[t+12]-hosei*x$Z[t+8])^2)
+IN<-sqrt((x$X[t+13]-x$X[t+8])^2+(x$Y[t+13]-x$Y[t+8])^2+(hosei*x$Z[t+13]-hosei*x$Z[t+8])^2)
+IO<-sqrt((x$X[t+14]-x$X[t+8])^2+(x$Y[t+14]-x$Y[t+8])^2+(hosei*x$Z[t+14]-hosei*x$Z[t+8])^2)
+IP<-sqrt((x$X[t+15]-x$X[t+8])^2+(x$Y[t+15]-x$Y[t+8])^2+(hosei*x$Z[t+15]-hosei*x$Z[t+8])^2)
+
+JK<-sqrt((x$X[t+10]-x$X[t+9])^2+(x$Y[t+10]-x$Y[t+9])^2+(hosei*x$Z[t+10]-hosei*x$Z[t+9])^2)
+JL<-sqrt((x$X[t+11]-x$X[t+9])^2+(x$Y[t+11]-x$Y[t+9])^2+(hosei*x$Z[t+11]-hosei*x$Z[t+9])^2)
+JM<-sqrt((x$X[t+12]-x$X[t+9])^2+(x$Y[t+12]-x$Y[t+9])^2+(hosei*x$Z[t+12]-hosei*x$Z[t+9])^2)
+JN<-sqrt((x$X[t+13]-x$X[t+9])^2+(x$Y[t+13]-x$Y[t+9])^2+(hosei*x$Z[t+13]-hosei*x$Z[t+9])^2)
+JO<-sqrt((x$X[t+14]-x$X[t+9])^2+(x$Y[t+14]-x$Y[t+9])^2+(hosei*x$Z[t+14]-hosei*x$Z[t+9])^2)
+JP<-sqrt((x$X[t+15]-x$X[t+9])^2+(x$Y[t+15]-x$Y[t+9])^2+(hosei*x$Z[t+15]-hosei*x$Z[t+9])^2)
+
+KL<-sqrt((x$X[t+11]-x$X[t+10])^2+(x$Y[t+11]-x$Y[t+10])^2+(hosei*x$Z[t+11]-hosei*x$Z[t+10])^2)
+KM<-sqrt((x$X[t+12]-x$X[t+10])^2+(x$Y[t+12]-x$Y[t+10])^2+(hosei*x$Z[t+12]-hosei*x$Z[t+10])^2)
+KN<-sqrt((x$X[t+13]-x$X[t+10])^2+(x$Y[t+13]-x$Y[t+10])^2+(hosei*x$Z[t+13]-hosei*x$Z[t+10])^2)
+KO<-sqrt((x$X[t+14]-x$X[t+10])^2+(x$Y[t+14]-x$Y[t+10])^2+(hosei*x$Z[t+14]-hosei*x$Z[t+10])^2)
+KP<-sqrt((x$X[t+15]-x$X[t+10])^2+(x$Y[t+15]-x$Y[t+10])^2+(hosei*x$Z[t+15]-hosei*x$Z[t+10])^2)
+
+LM<-sqrt((x$X[t+12]-x$X[t+11])^2+(x$Y[t+12]-x$Y[t+11])^2+(hosei*x$Z[t+12]-hosei*x$Z[t+11])^2)
+LN<-sqrt((x$X[t+13]-x$X[t+11])^2+(x$Y[t+13]-x$Y[t+11])^2+(hosei*x$Z[t+13]-hosei*x$Z[t+11])^2)
+LO<-sqrt((x$X[t+14]-x$X[t+11])^2+(x$Y[t+14]-x$Y[t+11])^2+(hosei*x$Z[t+14]-hosei*x$Z[t+11])^2)
+LP<-sqrt((x$X[t+15]-x$X[t+11])^2+(x$Y[t+15]-x$Y[t+11])^2+(hosei*x$Z[t+15]-hosei*x$Z[t+11])^2)
+
+MN<-sqrt((x$X[t+13]-x$X[t+12])^2+(x$Y[t+13]-x$Y[t+12])^2+(hosei*x$Z[t+13]-hosei*x$Z[t+12])^2)
+MO<-sqrt((x$X[t+14]-x$X[t+12])^2+(x$Y[t+14]-x$Y[t+12])^2+(hosei*x$Z[t+14]-hosei*x$Z[t+12])^2)
+MP<-sqrt((x$X[t+15]-x$X[t+12])^2+(x$Y[t+15]-x$Y[t+12])^2+(hosei*x$Z[t+15]-hosei*x$Z[t+12])^2)
+
+
+NO<-sqrt((x$X[t+14]-x$X[t+13])^2+(x$Y[t+14]-x$Y[t+13])^2+(hosei*x$Z[t+14]-hosei*x$Z[t+13])^2)
+NP<-sqrt((x$X[t+15]-x$X[t+13])^2+(x$Y[t+15]-x$Y[t+13])^2+(hosei*x$Z[t+15]-hosei*x$Z[t+13])^2)
+
+OP<-sqrt((x$X[t+15]-x$X[t+13])^2+(x$Y[t+15]-x$Y[t+14])^2+(hosei*x$Z[t+15]-hosei*x$Z[t+14])^2)
+
+kyori<-c(AB,AC,AD,AE,AF,AG,AH,AI,AJ,AK,AL,AM,AN,AO,AP,
+
+BC,BD,BE,BF,BG,BH,BI,BJ,BK,BL,BM,BN,BO,BP,
+
+CD,CE,CF,CG,CH,CI,CJ,CK,CL,CM,CN,CO,CP,
+
+DE,DF,DG,DH,DI,DJ,DK,DL,DM,DN,DO,DP,
+EF,EG,EH,EI,EJ,EK,EL,EM,EN,EO,EP,
+FG,FH,FI,FJ,FK,FL,FM,FN,FO,FP,
+GH,GI,GJ,GK,GL,GM,GN,GO,GP,
+HI,HJ,HK,HL,HM,HN,HO,HP,
+IJ,IK,IL,IM,IN,IO,IP,
+JK,JL,JM,JN,JO,JP,
+KL,KM,KN,KO,KP,
+LM,LN,LO,LP,
+MN,MO,MP,
+NO,NP,
+OP
+)
+timeCVsixt[1,((t-startcnumber16)/16+1)]<-sd(kyori)/mean(kyori)
+
+}
+
+
+
+}
+
+
+plot(1:celltime16,timeCVsixt,type="b",ylim=c(0,0.5))
+mato<-timeCVsixt
+mato[celltime16+1:(120-celltime16)]<-NA
+matome<-cbind(matome,mato)
+print(ncol(matome)-1)
+print(filename)
+
+##write.csv(matome, "matome16cellabortCV.csv", quote=FALSE, row.names=FALSE)
+

@@ -1,0 +1,173 @@
+library(xlsx)
+filename = "abort_4th_F11_E4.xls"  #filename
+hosei<-2.5
+
+#matome<-matrix(nrow=120,ncol=1)
+
+x = read.xlsx(filename,sheetIndex=1)
+
+
+tmax<-max(x$Frame) 
+time <- array(1:tmax-1)
+countnuc <- array(1:tmax-1)
+t <- 1                     
+ for (t in 1:tmax-1) {              
+   t <- t + 1                  
+time[t]<-t
+countnuc[t]<-sum(x$Frame==t)
+ }         
+
+
+
+ t1<-1
+ for (t1 in 3:tmax-1) {
+t1<t1+1
+tmpFrame1<-countnuc[t1]
+tmpFrame2<-countnuc[t1+1]
+if((tmpFrame1==1)&&(tmpFrame2==2)){starttime2<-t1+1}　
+if((tmpFrame1==2)&&(tmpFrame2>2)){endtime2<-t1}　　　
+}   
+
+celltime2<-endtime2-starttime2
+celltime2to4<-sum(countnuc==3)
+celltime4<-sum(countnuc==4)
+celltime4to8<-sum(countnuc==5)+sum(countnuc==6)+sum(countnuc==7)
+celltime8<-sum(countnuc==8)
+
+celltime8to16<-sum(countnuc==9)+sum(countnuc==10)+sum(countnuc==11)+sum(countnuc==12)+sum(countnuc==13)+sum(countnuc==14)+sum(countnuc==15)
+celltime16<-sum(countnuc==16)
+
+ t2<-1
+ for (t2 in 3:tmax-1) {
+t2<t2+1
+tmpFrame1<-countnuc[t2]
+tmpFrame2<-countnuc[t2+1]
+if((tmpFrame1!=4)&&(tmpFrame2==4)){starttime4<-t2+1}
+if((tmpFrame1==4)&&(tmpFrame2>4)){endtime4<-t2}
+}   
+
+ t2<-1
+ for (t2 in 3:tmax-1) {
+t2<t2+1
+tmpFrame1<-countnuc[t2]
+tmpFrame2<-countnuc[t2+1]
+if((tmpFrame1!=8)&&(tmpFrame2==8)){starttime8<-t2+1}
+if((tmpFrame1==8)&&(tmpFrame2>8)){endtime8<-t2}
+}   
+
+ t2<-1
+ for (t2 in 3:tmax-1) {
+t2<t2+1
+tmpFrame1<-countnuc[t2]
+tmpFrame2<-countnuc[t2+1]
+if((tmpFrame1!=16)&&(tmpFrame2==16)){starttime16<-t2+1}
+if((tmpFrame1==16)&&(tmpFrame2>16)){endtime16<-t2}
+}   
+
+cnumbermax<-length(x$Frame)
+t<-1
+ for (t in 1:cnumbermax-1) {              
+   t <- t + 1                  
+if((x$Frame[t]==starttime2)){
+startcnumber2<-t
+break}
+ }     
+
+t<-1
+ for (t in 1:cnumbermax-1) {             
+   t <- t + 1                  
+if((x$Frame[t]==endtime2)){
+endcnumber2<-t}
+ }     
+
+
+t<-1
+ for (t in 1:cnumbermax-1) {              
+   t <- t + 1                  
+if((x$Frame[t]==starttime4)){
+startcnumber4<-t
+break}
+ }     
+
+t<-1
+ for (t in 1:cnumbermax-1) {              
+   t <- t + 1                  
+if((x$Frame[t]==endtime4)){
+endcnumber4<-t}
+ }  
+
+
+t<-1
+ for (t in 1:cnumbermax-1) {              
+   t <- t + 1                  
+if((x$Frame[t]==starttime8)){
+startcnumber8<-t
+break}
+ }     
+
+t<-1
+ for (t in 1:cnumbermax-1) {             
+   t <- t + 1                  
+if((x$Frame[t]==endtime8)){
+endcnumber8<-t}
+ }        
+
+t<-1
+ for (t in 1:cnumbermax-1) {             
+   t <- t + 1                  
+if((x$Frame[t]==starttime16)){
+startcnumber16<-t
+break}
+ }     
+
+t<-1
+ for (t in 1:cnumbermax-1) {              
+   t <- t + 1                  
+if((x$Frame[t]==endtime16)){
+endcnumber16<-t}
+ }        
+
+
+
+rmsdtetcell4<-matrix(nrow=4,ncol=celltime4)
+root4<-matrix(nrow=4,ncol=celltime4)
+root4[1,1]<-startcnumber4
+root4[2,1]<-startcnumber4+1
+root4[3,1]<-startcnumber4+2
+root4[4,1]<-startcnumber4+3
+t<-1
+timeCVtet<-matrix(nrow=1,ncol=celltime4)
+
+ for (t in (startcnumber4-1):(endcnumber4)) {              
+   t <- t + 1                    
+
+
+if((t-startcnumber4)%%4==0){
+
+AB<-sqrt((x$X[t+1]-x$X[t])^2+(x$Y[t+1]-x$Y[t])^2+(hosei*x$Z[t+1]-hosei*x$Z[t])^2)
+AC<-sqrt((x$X[t+2]-x$X[t])^2+(x$Y[t+2]-x$Y[t])^2+(hosei*x$Z[t+2]-hosei*x$Z[t])^2)
+AD<-sqrt((x$X[t+3]-x$X[t])^2+(x$Y[t+3]-x$Y[t])^2+(hosei*x$Z[t+3]-hosei*x$Z[t])^2)
+
+BC<-sqrt((x$X[t+2]-x$X[t+1])^2+(x$Y[t+2]-x$Y[t+1])^2+(hosei*x$Z[t+2]-hosei*x$Z[t+1])^2)
+BD<-sqrt((x$X[t+3]-x$X[t+1])^2+(x$Y[t+3]-x$Y[t+1])^2+(hosei*x$Z[t+3]-hosei*x$Z[t+1])^2)
+CD<-sqrt((x$X[t+3]-x$X[t+2])^2+(x$Y[t+3]-x$Y[t+2])^2+(hosei*x$Z[t+3]-hosei*x$Z[t+2])^2)
+
+kyori<-c(AB,AC,AD,BC,BD,CD)
+timeCVtet[1,((t-startcnumber4)/4+1)]<-sd(kyori)/mean(kyori)
+
+}
+
+
+
+}
+
+
+plot(1:celltime4,timeCVtet,type="b",ylim=c(0,0.5))
+mato<-timeCVtet
+mato[celltime4+1:(120-celltime4)]<-NA
+matome<-cbind(matome,mato)
+print(ncol(matome)-1)
+print(filename)
+
+##write.csv(matome, "matome4cellabortCV.csv", quote=FALSE, row.names=FALSE)
+
